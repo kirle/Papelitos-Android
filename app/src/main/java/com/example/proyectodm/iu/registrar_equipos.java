@@ -18,7 +18,7 @@ import com.example.proyectodm.R;
 
 public class registrar_equipos extends AppCompatActivity {
 
-    String[] data = new String[]{   "Equipo1", "Equipo2", "Equipo3", "Equipo4", "Equipo5", "Equipo6", "Caca"  };
+    String[] data = new String[]{"Equipo1", "Equipo2", "Equipo3", "Equipo4", "Equipo5", "Equipo6", "Caca"  };
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -89,7 +89,7 @@ public class registrar_equipos extends AppCompatActivity {
         @Override
         public View getView(int position, View view, ViewGroup parent) {
             view = getLayoutInflater().inflate(R.layout.list_row, null);
-            TextView textView_name = (TextView) view.findViewById(R.id.list_item_name);
+            TextView textView_name = (TextView) view.findViewById(R.id.lbl_playerName);
             textView_name.setText(data[position]);
 
             return view;

@@ -33,13 +33,12 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/list_item_name"
-                android:layout_width="wrap_content"
+                android:id="@+id/lbl_playerName"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/delvue"
-                android:text="Introduce nombre"
-                android:textSize="32sp" />
-
+                android:text="Introduce nombre del jugador"
+                android:textSize="24dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -52,16 +51,7 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_weight="1" />
-            <ImageButton
-                android:id="@+id/button2"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_marginRight="10dp"
-                android:background="@mipmap/adduser"
-                app:srcCompat="@mipmap/adduser"
 
-                />
 
             <ImageButton
                 android:id="@+id/button"

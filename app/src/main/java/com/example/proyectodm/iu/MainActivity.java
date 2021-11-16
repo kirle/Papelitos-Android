@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void sendMessage(){
-        Intent intent = new Intent(this, registrar_equipos.class);
+        Intent intent = new Intent(this, RegistrarJugadores.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         playSound();
         startActivity(intent);
