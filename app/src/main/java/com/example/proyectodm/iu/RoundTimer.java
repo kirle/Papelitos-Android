@@ -1,0 +1,16 @@
+package com.example.proyectodm.iu;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+
+import com.example.proyectodm.R;
+
+public class RoundTimer extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_round_timer);
+    }
+}

@@ -13,6 +13,8 @@ import com.example.proyectodm.R;
 
 public class MainActivity extends AppCompatActivity {
 
+    LinearLayout layout; // parent layout on activity
+    MediaPlayer musicPlayer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,21 +27,32 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        LinearLayout layout = (LinearLayout) findViewById(R.id.lyt_frame);
+        layout = findViewById(R.id.lyt_frame);
         layout.setBackgroundResource(R.drawable.paperfly_animation);
 
-        AnimationDrawable frameAnimation = (AnimationDrawable) layout.getBackground();
+        playAnimation();
+        playMusic();
+
+    }
+    public void playAnimation(){
+        AnimationDrawable frameAnimation = (AnimationDrawable) this.layout.getBackground();
         frameAnimation.start();
-
-        //Music
-        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.music);
+    }
+    public void playMusic(){
+        musicPlayer = MediaPlayer.create(this, R.raw.music);
+        musicPlayer.start();
+    }
+    public void playSound(){
+        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.changesound);
         mediaPlayer.start();
-
     }
 
     public void sendMessage(){
         Intent intent = new Intent(this, registrar_equipos.class);
 
+        playSound();
         startActivity(intent);
+        musicPlayer.stop();
+
     }
 }

@@ -1,14 +1,12 @@
 package com.example.proyectodm.iu;
 
-import android.app.ListActivity;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -37,20 +35,36 @@ public class registrar_equipos extends AppCompatActivity {
         listView.setAdapter(customAdapter);
 
         ImageButton btn_back = (ImageButton) findViewById(R.id.imageButtonLeft);
+        ImageButton btn_go = (ImageButton) findViewById(R.id.imageButtonRight);
+
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendMessage();
+                playSound();
+
+                Intent myIntent = new Intent(registrar_equipos.this, MainActivity.class);
+                registrar_equipos.this.startActivity(myIntent);
+
+            }
+        });
+
+        btn_go.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                playSound();
+                Intent myIntent2 = new Intent(registrar_equipos.this, Instructions.class);
+                registrar_equipos.this.startActivity(myIntent2);
             }
         });
 
     }
 
-    public void sendMessage(){
-        Intent intent = new Intent(this, MainActivity.class);
-
-        startActivity(intent);
+    public void playSound(){
+        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.changesound);
+        mediaPlayer.start();
     }
+
+
 
     class CustomAdapter extends BaseAdapter{
 
