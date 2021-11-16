@@ -25,7 +25,7 @@
             >
 
             <ImageButton
-                android:id="@+id/imageButton3"
+                android:id="@+id/btn_menu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@mipmap/menuicon"
@@ -41,9 +41,9 @@
             android:layout_width="match_parent"
             android:layout_height="1000dp"
             android:orientation="vertical"
-            android:background="@mipmap/fondopapelviejo"
             android:layout_weight="0.45"
             android:weightSum="1"
+            android:layout_gravity="center"
             >
 
             <TextView
@@ -55,7 +55,8 @@
                 android:text="Tiempo restante:"
                 android:textAlignment="center"
                 android:textSize="50dp"
-
+                android:fontFamily="@font/fatchicks"
+                android:gravity="center"
 
                 />
 
@@ -67,6 +68,7 @@
                 android:layout_weight="0.75"
                 android:text="01:00"
                 android:textSize="100dp"
+                android:fontFamily="@font/fatchicks"
 
                 android:textAlignment="center" />
         </LinearLayout>
@@ -83,7 +85,7 @@
 
 
             <ImageButton
-                android:id="@+id/imageButton2"
+                android:id="@+id/btn_backtimer"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="@mipmap/backbtn"
@@ -93,7 +95,7 @@
                 />
 
             <ImageButton
-                android:id="@+id/imageButton"
+                android:id="@+id/btnoktimer"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"

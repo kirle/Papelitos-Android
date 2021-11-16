@@ -17,8 +17,8 @@ public class Instructions extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_instructions);
 
-        ImageButton btn_back = (ImageButton) findViewById(R.id.imageButtonLeft);
-        ImageButton btn_ok = (ImageButton) findViewById(R.id.imageButtonRight);
+        ImageButton btn_back = (ImageButton) findViewById(R.id.btn_backtimer);
+        ImageButton btn_ok = (ImageButton) findViewById(R.id.btnoktimer);
 
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -32,6 +32,7 @@ public class Instructions extends AppCompatActivity {
         btn_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                playSound();
                 Intent myIntent = new Intent(Instructions.this, RoundTimer.class);
                 Instructions.this.startActivity(myIntent);
             }

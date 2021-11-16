@@ -2,10 +2,12 @@ package com.example.proyectodm.iu;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Service;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -19,6 +21,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Intent svc = new Intent(this, BackgroundSoundService.class);
+        svc.setAction("com.example.BackgroundSoundService");
+        startService(svc);
+
         LinearLayout lytPlay = (LinearLayout) findViewById(R.id.lyt_play);
         lytPlay.setOnClickListener(new View.OnClickListener() {
             @Override
