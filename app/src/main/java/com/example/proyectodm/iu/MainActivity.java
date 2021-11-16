@@ -22,15 +22,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Intent svc = new Intent(this, BackgroundSoundService.class);
-        svc.setAction("com.example.BackgroundSoundService");
-        startService(svc);
-
         LinearLayout lytPlay = (LinearLayout) findViewById(R.id.lyt_play);
         lytPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 sendMessage();
+
             }
         });
 
@@ -41,6 +39,19 @@ public class MainActivity extends AppCompatActivity {
         playMusic();
 
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        stopMusic();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        playMusic();
+    }
+
     public void playAnimation(){
         AnimationDrawable frameAnimation = (AnimationDrawable) this.layout.getBackground();
         frameAnimation.start();
@@ -49,6 +60,9 @@ public class MainActivity extends AppCompatActivity {
         musicPlayer = MediaPlayer.create(this, R.raw.music);
         musicPlayer.start();
     }
+    public void stopMusic(){
+        musicPlayer.pause();
+    }
     public void playSound(){
         MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.changesound);
         mediaPlayer.start();
@@ -56,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void sendMessage(){
         Intent intent = new Intent(this, registrar_equipos.class);
-
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         playSound();
         startActivity(intent);
         musicPlayer.stop();

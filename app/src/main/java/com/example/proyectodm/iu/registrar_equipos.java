@@ -43,6 +43,7 @@ public class registrar_equipos extends AppCompatActivity {
                 playSound();
 
                 Intent myIntent = new Intent(registrar_equipos.this, MainActivity.class);
+                myIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 registrar_equipos.this.startActivity(myIntent);
 
             }
@@ -53,6 +54,8 @@ public class registrar_equipos extends AppCompatActivity {
             public void onClick(View v) {
                 playSound();
                 Intent myIntent2 = new Intent(registrar_equipos.this, Instructions.class);
+                myIntent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
                 registrar_equipos.this.startActivity(myIntent2);
             }
         });

@@ -10,25 +10,30 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ProyectoDM">
         <activity
-            android:name=".iu.Instructions"
+            android:name=".iu.RegistrarJugadores"
             android:exported="false" />
+        <activity
+            android:name=".iu.Instructions"
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".iu.RoundTimer"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".iu.registrar_equipos"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".iu.MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:enabled="true" android:name=".BackgroundSoundService" />
-
     </application>
 
 </manifest>
