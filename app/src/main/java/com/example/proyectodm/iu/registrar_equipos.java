@@ -42,7 +42,7 @@ public class registrar_equipos extends AppCompatActivity {
             public void onClick(View v) {
                 playSound();
 
-                Intent myIntent = new Intent(registrar_equipos.this, MainActivity.class);
+                Intent myIntent = new Intent(registrar_equipos.this, RegistrarJugadores.class);
                 myIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 registrar_equipos.this.startActivity(myIntent);
 
@@ -89,7 +89,7 @@ public class registrar_equipos extends AppCompatActivity {
         @Override
         public View getView(int position, View view, ViewGroup parent) {
             view = getLayoutInflater().inflate(R.layout.list_row, null);
-            TextView textView_name = (TextView) view.findViewById(R.id.lbl_playerName);
+            TextView textView_name = (TextView) view.findViewById(R.id.list_item_name);
             textView_name.setText(data[position]);
 
             return view;

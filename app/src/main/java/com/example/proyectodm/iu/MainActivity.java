@@ -15,11 +15,15 @@ import com.example.proyectodm.R;
 
 public class MainActivity extends AppCompatActivity {
 
+
     LinearLayout layout; // parent layout on activity
     MediaPlayer musicPlayer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         setContentView(R.layout.activity_main);
 
         LinearLayout lytPlay = (LinearLayout) findViewById(R.id.lyt_play);
@@ -69,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void sendMessage(){
-        Intent intent = new Intent(this, RegistrarJugadores.class);
+        Intent intent = new Intent(MainActivity.this, RegistrarJugadores.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         playSound();
         startActivity(intent);

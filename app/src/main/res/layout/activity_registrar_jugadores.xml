@@ -68,11 +68,12 @@
 
 
                 <ImageButton
-                    android:id="@+id/addicon"
+                    android:id="@+id/btn_addPlayer"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="0.2"
                     android:layout_marginLeft="30dp"
+                    android:clickable="true"
                     android:background="@mipmap/addicon"
 
                     />
@@ -103,7 +104,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"
                 android:background="@mipmap/paperleft"
-                app:srcCompat="@mipmap/paperleft"
+
 
                 />
 
@@ -116,7 +117,7 @@
 
 
                 android:background="@mipmap/paperright"
-                app:srcCompat="@mipmap/paperright" />
+                />
 
         </LinearLayout>
     </LinearLayout>

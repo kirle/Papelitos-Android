@@ -22,8 +22,8 @@
             android:layout_height="60dp"
             android:layout_gravity="center"
             android:layout_marginLeft="10dp"
-            android:background="@mipmap/groupofpapers"
-            app:srcCompat="@mipmap/groupofpapers" />
+            android:background="@mipmap/papericon"
+            app:srcCompat="@mipmap/papericon" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -53,15 +53,15 @@
                 android:layout_weight="1" />
 
 
-            <ImageButton
-                android:id="@+id/button"
+            <ImageView
+                android:id="@+id/btn_delete_player"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginRight="10dp"
                 android:background="@mipmap/paperbinicon"
                 app:srcCompat="@mipmap/paperbinicon"
-
+                android:clickable="true"
                 />
         </LinearLayout>
 

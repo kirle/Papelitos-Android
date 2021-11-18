@@ -35,7 +35,7 @@ public class DBManager extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db){
         Log.i("DBManager", "Creando BBDD "+db_name+" v"+db_version);
 
-        db.setForeignKeyConstraintsEnabled(true);
+        //db.setForeignKeyConstraintsEnabled(true);
 
         /*Creacion tabla Jugador*/
         try{
@@ -98,13 +98,16 @@ public class DBManager extends SQLiteOpenHelper {
         this.onCreate(db);
     }
 
+    //nuevo insertar Jugador
     public boolean insertarJugador(String nombre){ //registrar jugador
+
         boolean toret = false;
         Cursor cursor = null;
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
         values.put(JUGADOR_nombre, nombre);
+        //values.put(JUGADOR_id, num);
 
         try{
             db.beginTransaction();
@@ -118,7 +121,6 @@ public class DBManager extends SQLiteOpenHelper {
             db.setTransactionSuccessful();
             toret = true;
         }catch(SQLException exc){
-            Log.e("DBManager.insertarJugador", exc.getMessage());
         }
         finally {
             if(cursor != null){
@@ -129,6 +131,7 @@ public class DBManager extends SQLiteOpenHelper {
         return toret;
     }
 
+
     public boolean eliminarJugador(String id_jugador){
         boolean toret = false;
         SQLiteDatabase db = this.getWritableDatabase();
@@ -138,7 +141,6 @@ public class DBManager extends SQLiteOpenHelper {
             db.setTransactionSuccessful();
             toret = true;
         }catch(SQLException exc){
-            Log.e("DBManager.eliminarJugador", exc.getMessage());
         }finally {
             db.endTransaction();
         }
@@ -165,7 +167,6 @@ public class DBManager extends SQLiteOpenHelper {
             db.setTransactionSuccessful();
             toret = true;
         }catch (SQLException exc){
-            Log.e("DBManager.insertarEquipo", exc.getMessage());
         }
         finally {
             if(cursor != null){
@@ -185,7 +186,6 @@ public class DBManager extends SQLiteOpenHelper {
             db.setTransactionSuccessful();
             toret = true;
         }catch(SQLException exc){
-            Log.e("DBManager.eliminarEquipo", exc.getMessage());
         }finally {
             db.endTransaction();
         }
@@ -216,7 +216,6 @@ public class DBManager extends SQLiteOpenHelper {
             db.setTransactionSuccessful();
             toret = true;
         }catch(SQLException exc){
-            Log.e("DBManager.asignarJugador_Equipo", exc.getMessage());
         }finally {
             if(cursor != null){
                 cursor.close();
@@ -235,7 +234,6 @@ public class DBManager extends SQLiteOpenHelper {
             db.setTransactionSuccessful();
             toret = true;
         }catch(SQLException exc){
-            Log.e("DBManager.eliminarAsignacionJugador_Equipo", exc.getMessage());
         }finally {
             db.endTransaction();
         }
@@ -265,7 +263,6 @@ public class DBManager extends SQLiteOpenHelper {
             db.setTransactionSuccessful();
             toret = true;
         }catch(SQLException exc){
-            Log.e("DBManager.modificarPuntuacion", exc.getMessage());
         }finally {
             if(cursor != null){
                 cursor.close();
