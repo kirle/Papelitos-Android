@@ -71,6 +71,28 @@
                 android:fontFamily="@font/fatchicks"
 
                 android:textAlignment="center" />
+
+            <Button
+                android:id="@+id/button_start_pause"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txt_timer"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:text="start"
+                android:fontFamily="@font/fatchicks"/>
+
+            <Button
+                android:id="@+id/button_reset"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_toEndOf="@+id/button_start_pause"
+                android:text="reset"
+                android:fontFamily="@font/fatchicks"
+                android:visibility="invisible"
+                tools:visibility="visible" />
+
         </LinearLayout>
 
         <LinearLayout
