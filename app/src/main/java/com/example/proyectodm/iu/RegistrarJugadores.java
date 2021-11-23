@@ -89,7 +89,7 @@ public class RegistrarJugadores extends AppCompatActivity {
         MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.changesound);
         mediaPlayer.start();
     }
-
+    //prueba
     private void onAdd(){
         final EditText editText = new EditText(this);
 
