@@ -16,13 +16,16 @@
         android:layout_margin="10dp"
         android:weightSum="1"
 
+
         android:background="@mipmap/paperbackground">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_weight="0.33">
+            android:orientation="horizontal"
+            android:layout_weight="0.33"
+            android:layout_gravity="center"
+            >
 
             <ImageView
                 android:layout_width="60dp"
@@ -30,11 +33,13 @@
                 android:layout_gravity="center"
                 android:layout_marginLeft="10dp"
                 android:background="@mipmap/papericon"
-                app:srcCompat="@mipmap/papericon" />
+                app:srcCompat="@mipmap/papericon"
+
+                />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="10dp"
@@ -55,6 +60,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
+            android:layout_weight="0.33"
 
             >
             <View
