@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
@@ -130,6 +131,28 @@ public class RegistrarJugadores extends AppCompatActivity {
 
 
     private void onRemove(String text){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle("Eliminar jugador:");
+        builder.setMessage("¿Estas seguro?:");
+        builder.setPositiveButton("+", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                myAdapter.remove(text);
+            }
+        });
+        builder.setNegativeButton("Cancel", null);
+
+        builder.create();
+
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogLayout = inflater.inflate(R.layout.dialog_layout_delete_player, null);
+        builder.setView(dialogLayout);
+
+        builder.show();
+
+
         myAdapter.remove(text);
     }
 
@@ -217,7 +240,7 @@ public class RegistrarJugadores extends AppCompatActivity {
             delete_image_view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    myAdapter.remove(text);
+                    onRemove(text);
                 }
             });
 
