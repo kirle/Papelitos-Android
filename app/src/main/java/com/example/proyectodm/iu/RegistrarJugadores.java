@@ -3,6 +3,7 @@ package com.example.proyectodm.iu;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -240,15 +241,23 @@ public class RegistrarJugadores extends AppCompatActivity {
         public void bindView(View v, Context context, Cursor cursor) {
 
             //int index= cursor.getColumnIndex(DBManager.JUGADOR_nombre);
-            String text = cursor.getString(0);
-            System.out.println("TEXT ---> " + text);
+            String index = cursor.getString(0);
+
+            System.out.println("TEXT ---> " + index);
+            TextView txtView = (TextView) v.findViewById(R.id.lbl_playerName);
+
+            String text = gestorDB.getJugador(Integer.valueOf(index));
+
+
+            txtView.setText(text);
+
 
             //On Player image icon (delete) click
             ImageView delete_image_view = (ImageView) v.findViewById(R.id.btn_delete_player);
             delete_image_view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onRemove(text);
+                    onRemove(index);
                 }
             });
 

@@ -148,7 +148,7 @@ public class DBManager extends SQLiteOpenHelper {
         db = this.getWritableDatabase();
         try{
             db.beginTransaction();
-            db.delete(tabla_jugador, JUGADOR_id + "=?", new String[]{id_jugador});
+            db.delete(tabla_jugador, JUGADOR_id + "=?",new String[]{id_jugador});
             db.setTransactionSuccessful();
             toret = true;
         }catch(SQLException exc){
@@ -288,16 +288,20 @@ public class DBManager extends SQLiteOpenHelper {
                 new String[]{JUGADOR_id}, null, null, null, null, null );
     }
 
-    public boolean getJugador(String text){
+    public String getJugador(int id){
+        String text = "";
         boolean toRet = false;
         Cursor c = null;
         db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(JUGADOR_nombre, text);
+        values.put(JUGADOR_id, id);
 
         try{
             db.beginTransaction();
-            c = db.query(tabla_jugador, null, JUGADOR_nombre + "=?", new String[]{text}, null, null, null, null);
+            String query = "SELECT nombre FROM jugador WHERE _id==" + id+ ";";
+            c = db.rawQuery(query,null);
+            c.moveToFirst();
+            text = c.getString(0);
         } catch (SQLException e){
             e.getMessage();
         }finally {
@@ -306,7 +310,7 @@ public class DBManager extends SQLiteOpenHelper {
             }
             db.endTransaction();
         }
-        return toRet;
+        return text;
     }
 
     /*¿Hace falta eliminarPuntuacion() si ya tengo ON DELETE CAS
