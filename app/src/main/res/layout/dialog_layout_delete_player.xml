@@ -14,7 +14,7 @@
             android:id="@+id/img_dialog"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@mipmap/trituradora"
+            android:src="@drawable/trituradora"
             android:contentDescription="TODO" />
     </LinearLayout>
 

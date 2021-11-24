@@ -28,8 +28,11 @@ public class DBManager extends SQLiteOpenHelper {
     public static String EQUIPO_id_fk2 = "_id";
     public static String puntuacion = "punt";
 
+    SQLiteDatabase db;
+
     public DBManager(Context context){
         super(context, db_name, null, db_version);
+        //context.deleteDatabase("papelitos");
 
     }
     @Override
@@ -104,7 +107,7 @@ public class DBManager extends SQLiteOpenHelper {
 
         boolean toret = false;
         Cursor cursor = null;
-        SQLiteDatabase db = this.getWritableDatabase();
+        db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
         values.put(JUGADOR_nombre, nombre);
@@ -127,6 +130,7 @@ public class DBManager extends SQLiteOpenHelper {
             db.setTransactionSuccessful();
             toret = true;
         }catch(SQLException exc){
+
         }
         finally {
             if(cursor != null){
@@ -138,9 +142,10 @@ public class DBManager extends SQLiteOpenHelper {
     }
 
 
+
     public boolean eliminarJugador(String id_jugador){
         boolean toret = false;
-        SQLiteDatabase db = this.getWritableDatabase();
+        db = this.getWritableDatabase();
         try{
             db.beginTransaction();
             db.delete(tabla_jugador, JUGADOR_id + "=?", new String[]{id_jugador});
@@ -283,6 +288,26 @@ public class DBManager extends SQLiteOpenHelper {
                 new String[]{JUGADOR_id}, null, null, null, null, null );
     }
 
+    public boolean getJugador(String text){
+        boolean toRet = false;
+        Cursor c = null;
+        db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(JUGADOR_nombre, text);
+
+        try{
+            db.beginTransaction();
+            c = db.query(tabla_jugador, null, JUGADOR_nombre + "=?", new String[]{text}, null, null, null, null);
+        } catch (SQLException e){
+            e.getMessage();
+        }finally {
+            if(c != null){
+                c.close();
+            }
+            db.endTransaction();
+        }
+        return toRet;
+    }
 
     /*¿Hace falta eliminarPuntuacion() si ya tengo ON DELETE CAS
     .

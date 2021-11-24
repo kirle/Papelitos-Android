@@ -12,6 +12,7 @@ import android.media.Image;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,8 +85,17 @@ public class RegistrarJugadores extends AppCompatActivity {
 
         //List Adapter
 
+        String[] projections = {gestorDB.JUGADOR_id, gestorDB.JUGADOR_nombre};
 
+        Cursor c = gestorDB.getWritableDatabase().query( gestorDB.tabla_jugador,
+                projections, null, null, null, null, null );
+        ListView listView = (ListView) findViewById(R.id.playerList);
 
+        this.myAdapter = new MyAdapter(this, c);
+
+        // Assign adapter to ListView
+
+        listView.setAdapter(myAdapter);
 
 
     }
@@ -93,15 +103,8 @@ public class RegistrarJugadores extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        Cursor c = gestorDB.getWritableDatabase().query( gestorDB.tabla_jugador,
-                new String[]{gestorDB.JUGADOR_nombre}, null, null, null, null, null );
-        ListView listView = (ListView) findViewById(R.id.playerList);
+        updatePlayers();
 
-        this.myAdapter = new MyAdapter(this, null);
-
-        // Assign adapter to ListView
-
-        listView.setAdapter(myAdapter);
     }
 
     public void playSound(){
@@ -121,6 +124,9 @@ public class RegistrarJugadores extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 String text = editText.getText().toString();
                 myAdapter.add(text);
+                /*
+                TextView textView_name = (TextView) findViewById(R.id.lbl_playerName);
+                textView_name.setText(text); */
             }
         });
         builder.setNegativeButton("Cancel", null);
@@ -136,24 +142,22 @@ public class RegistrarJugadores extends AppCompatActivity {
 
         builder.setTitle("Eliminar jugador:");
         builder.setMessage("¿Estas seguro?:");
-        builder.setPositiveButton("+", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("CONFIRMAR", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 myAdapter.remove(text);
             }
         });
-        builder.setNegativeButton("Cancel", null);
-
+        builder.setNegativeButton("CANCELAR", null);
         builder.create();
 
         LayoutInflater inflater = getLayoutInflater();
         View dialogLayout = inflater.inflate(R.layout.dialog_layout_delete_player, null);
         builder.setView(dialogLayout);
-
         builder.show();
 
 
-        myAdapter.remove(text);
+
     }
 
     private void onModify(int pos){
@@ -200,15 +204,27 @@ public class RegistrarJugadores extends AppCompatActivity {
 
 
         public void add(String text){
-            RegistrarJugadores.this.gestorDB.insertarJugador(text);
-            updatePlayers();
-            notifyDataSetChanged();
+            if(RegistrarJugadores.this.gestorDB.insertarJugador(text)){
+                System.out.println("Jugador añadido");
+                updatePlayers();
+                notifyDataSetChanged();
+            } else{
+                System.out.println("ERROR al añadir jugador");
+            }
+
 
         }
         public void remove(String text){
-            RegistrarJugadores.this.gestorDB.eliminarJugador(text);
-            updatePlayers();
-            notifyDataSetChanged();
+            if(RegistrarJugadores.this.gestorDB.eliminarJugador(text)){
+                updatePlayers();
+                notifyDataSetChanged();
+                Log.e("Error" , "player deleted");
+
+            } else{
+                Log.e("Error" , "error deleting player ");
+            }
+
+
 
         }
         public void modify(int pos, String text){
@@ -223,17 +239,9 @@ public class RegistrarJugadores extends AppCompatActivity {
         @Override
         public void bindView(View v, Context context, Cursor cursor) {
 
-            TextView textView_name = (TextView) v.findViewById(R.id.lbl_playerName);
-            String text = textView_name.getText().toString();
-
-            //On player textView click
-            textView_name.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onModify(cursor.getColumnIndex(text));
-
-                }
-            });
+            //int index= cursor.getColumnIndex(DBManager.JUGADOR_nombre);
+            String text = cursor.getString(0);
+            System.out.println("TEXT ---> " + text);
 
             //On Player image icon (delete) click
             ImageView delete_image_view = (ImageView) v.findViewById(R.id.btn_delete_player);
@@ -243,6 +251,21 @@ public class RegistrarJugadores extends AppCompatActivity {
                     onRemove(text);
                 }
             });
+
+
+            //On player textView click
+            /*
+            textView_name.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    onModify(cursor.getColumnIndex(text));
+
+
+                }
+            });
+            */
+
 
 
 
