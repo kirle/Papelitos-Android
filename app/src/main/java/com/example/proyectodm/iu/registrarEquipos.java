@@ -16,7 +16,7 @@ import com.example.proyectodm.R;
 
 
 
-public class registrar_equipos extends AppCompatActivity {
+public class registrarEquipos extends AppCompatActivity {
 
     String[] data = new String[]{"Equipo1", "Equipo2", "Equipo3", "Equipo4", "Equipo5", "Equipo6", "Caca"  };
 
@@ -42,9 +42,9 @@ public class registrar_equipos extends AppCompatActivity {
             public void onClick(View v) {
                 playSound();
 
-                Intent myIntent = new Intent(registrar_equipos.this, RegistrarJugadores.class);
+                Intent myIntent = new Intent(registrarEquipos.this, RegistrarJugadores.class);
                 myIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                registrar_equipos.this.startActivity(myIntent);
+                registrarEquipos.this.startActivity(myIntent);
 
             }
         });
@@ -53,10 +53,10 @@ public class registrar_equipos extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 playSound();
-                Intent myIntent2 = new Intent(registrar_equipos.this, Instructions.class);
+                Intent myIntent2 = new Intent(registrarEquipos.this, Instructions.class);
                 myIntent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-                registrar_equipos.this.startActivity(myIntent2);
+                registrarEquipos.this.startActivity(myIntent2);
             }
         });
 

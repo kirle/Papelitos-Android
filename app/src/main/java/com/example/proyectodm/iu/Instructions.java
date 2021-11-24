@@ -24,7 +24,7 @@ public class Instructions extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 playSound();
-                Intent myIntent = new Intent(Instructions.this, registrar_equipos.class);
+                Intent myIntent = new Intent(Instructions.this, registrarEquipos.class);
                 Instructions.this.startActivity(myIntent);
             }
         });

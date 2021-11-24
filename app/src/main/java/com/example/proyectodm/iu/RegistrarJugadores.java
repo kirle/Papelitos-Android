@@ -3,37 +3,27 @@ package com.example.proyectodm.iu;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.media.Image;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
 import com.example.proyectodm.R;
+import com.example.proyectodm.core.DBManager;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class RegistrarJugadores extends AppCompatActivity {
     private DBManager gestorDB;
@@ -46,17 +36,15 @@ public class RegistrarJugadores extends AppCompatActivity {
 
         setContentView(R.layout.activity_registrar_jugadores);
 
-        //Creating DB
-
+        // Creating DB
         this.gestorDB = new DBManager( this.getApplicationContext());
 
-
+        // Views for layout
         ImageButton btngoplayers = (ImageButton) findViewById(R.id.btn_goplayers);
         ImageButton btnbackplayers = (ImageButton) findViewById(R.id.btn_backplayers);
         ImageButton btnadd = (ImageButton) findViewById(R.id.btn_addPlayer);
 
-        //myAdapter = new MyAdapter(this);
-
+        // Btn Listener añadir
         btnadd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,7 +56,7 @@ public class RegistrarJugadores extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 playSound();
-                Intent myIntent = new Intent(RegistrarJugadores.this, registrar_equipos.class);
+                Intent myIntent = new Intent(RegistrarJugadores.this, registrarEquipos.class);
                 myIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 RegistrarJugadores.this.startActivity(myIntent);
             }

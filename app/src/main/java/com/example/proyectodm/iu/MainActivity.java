@@ -30,9 +30,25 @@ public class MainActivity extends AppCompatActivity {
         lytPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 sendMessage();
+            }
+        });
 
+        LinearLayout lytOptions = (LinearLayout) findViewById(R.id.lyt_options);
+        lytOptions.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, Options.class);
+                MainActivity.this.startActivity(intent);
+            }
+        });
+
+        LinearLayout lytHelp = (LinearLayout) findViewById(R.id.lyt_help);
+        lytHelp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, Help.class);
+                MainActivity.this.startActivity(intent);
             }
         });
 
