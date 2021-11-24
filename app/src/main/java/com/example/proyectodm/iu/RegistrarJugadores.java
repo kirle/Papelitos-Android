@@ -161,15 +161,17 @@ public class RegistrarJugadores extends AppCompatActivity {
 
     }
 
-    private void onModify(int pos){
+    private void onModify(String pos){
         final EditText editText = new EditText(this);
 
+        //Builds dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Nuevo nombre:");
         builder.setMessage("Nombre:");
         builder.setView(editText);
         builder.setPositiveButton("+", new DialogInterface.OnClickListener() {
             @Override
+            //When confirm
             public void onClick(DialogInterface dialog, int which) {
                 final String text = editText.getText().toString();
                 myAdapter.modify(pos,text);
@@ -228,8 +230,8 @@ public class RegistrarJugadores extends AppCompatActivity {
 
 
         }
-        public void modify(int pos, String text){
-            this.data.set(pos, text);
+        public void modify(String pos, String text){
+            RegistrarJugadores.this.gestorDB.modificarJugador(pos, text);
         }
 
         @Override
@@ -240,12 +242,13 @@ public class RegistrarJugadores extends AppCompatActivity {
         @Override
         public void bindView(View v, Context context, Cursor cursor) {
 
-            //int index= cursor.getColumnIndex(DBManager.JUGADOR_nombre);
+            //Index of player
             String index = cursor.getString(0);
 
             System.out.println("TEXT ---> " + index);
             TextView txtView = (TextView) v.findViewById(R.id.lbl_playerName);
 
+            //Text from database for first view
             String text = gestorDB.getJugador(Integer.valueOf(index));
 
 
@@ -263,17 +266,18 @@ public class RegistrarJugadores extends AppCompatActivity {
 
 
             //On player textView click
-            /*
-            textView_name.setOnClickListener(new View.OnClickListener() {
+
+            txtView.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
-                    onModify(cursor.getColumnIndex(text));
+                    int i = Integer.valueOf(index);
+                    onModify(index);
 
 
                 }
             });
-            */
+
 
 
 

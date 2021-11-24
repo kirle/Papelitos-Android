@@ -158,6 +158,27 @@ public class DBManager extends SQLiteOpenHelper {
         return toret;
     }
 
+    public boolean modificarJugador(String id_jugador, String nuevo_nombre){
+        boolean toret = false;
+        db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(JUGADOR_nombre, nuevo_nombre);
+        try{
+            db.beginTransaction();
+            db.update(tabla_jugador, values,JUGADOR_id+"=? ", new String[]{id_jugador});
+            db.setTransactionSuccessful();
+            toret = true;
+        }catch(SQLException exc){
+            Log.e("DBM.modificarJugador",exc.getMessage());
+        }finally {
+            db.endTransaction();
+        }
+        return toret;
+    }
+
+
+
+
     public boolean insertarEquipo(String nombre_equipo){ /*Registrar equipo*/
         boolean toret = false;
         Cursor cursor = null;
@@ -288,6 +309,7 @@ public class DBManager extends SQLiteOpenHelper {
                 new String[]{JUGADOR_id}, null, null, null, null, null );
     }
 
+    //Get certain player from id
     public String getJugador(int id){
         String text = "";
         boolean toRet = false;
