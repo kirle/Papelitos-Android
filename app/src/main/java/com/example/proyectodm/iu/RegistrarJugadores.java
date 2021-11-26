@@ -37,7 +37,7 @@ public class RegistrarJugadores extends AppCompatActivity {
         setContentView(R.layout.activity_registrar_jugadores);
 
         // Creating DB
-        this.gestorDB = new DBManager( this.getApplicationContext());
+        this.gestorDB = DBManager.getInstance(this.getApplicationContext()); //Singleton
 
         // Views for layout
         ImageButton btngoplayers = (ImageButton) findViewById(R.id.btn_goplayers);
@@ -191,7 +191,7 @@ public class RegistrarJugadores extends AppCompatActivity {
 
             mLayoutInflater = LayoutInflater.from(context);
 
-        }//hola
+        }
 
 
         public void add(String text){

@@ -15,6 +15,8 @@ public class DBManager extends SQLiteOpenHelper {
     public static final String tabla_equipo = "equipo";
     public static final String tabla_puntuacion = "puntuacion";
 
+    private static DBManager instance;
+
     /*Campos de tabla JUGADOR*/
     public static String JUGADOR_id = "_id";
     public static String JUGADOR_nombre = "nombre";
@@ -30,11 +32,19 @@ public class DBManager extends SQLiteOpenHelper {
 
     SQLiteDatabase db;
 
-    public DBManager(Context context){
+    private DBManager(Context context){
         super(context, db_name, null, db_version);
         //context.deleteDatabase("papelitos");
 
     }
+
+    public static synchronized DBManager getInstance(Context context){ // Singleton pattern
+        if(instance == null){
+            instance = new DBManager(context.getApplicationContext());
+        }
+        return instance;
+    }
+
     @Override
     public void onCreate(SQLiteDatabase db){
         Log.i("DBManager", "Creando BBDD "+db_name+" v"+db_version);
