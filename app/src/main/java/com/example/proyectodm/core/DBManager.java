@@ -14,6 +14,8 @@ public class DBManager extends SQLiteOpenHelper {
     public static final String tabla_jugador = "jugador";
     public static final String tabla_equipo = "equipo";
     public static final String tabla_puntuacion = "puntuacion";
+    public static final String tabla_papelito = "papelito";
+
 
     private static DBManager instance;
 
@@ -29,6 +31,10 @@ public class DBManager extends SQLiteOpenHelper {
     /*Campos tabla PUNTUACION*/
     public static String EQUIPO_id_fk2 = "_id";
     public static String puntuacion = "punt";
+
+    /*Campos tabla PAPELITO*/
+    public static String PAPELITO_id="_id";
+    public static String PAPELITO_texto="texto";
 
     SQLiteDatabase db;
 
@@ -94,6 +100,22 @@ public class DBManager extends SQLiteOpenHelper {
         }catch (SQLException exec){
             Log.e("DBManager.onCreate", "Creando "+tabla_puntuacion+": "+exec.getMessage());
         }finally {
+            db.endTransaction();
+        }
+
+        /*Creacion tabla Papelito*/
+        try{
+            db.beginTransaction();
+            db.execSQL("CREATE TABLE IF NOT EXISTS "+tabla_papelito + " ("
+            + PAPELITO_id + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, "
+            + PAPELITO_texto + "TEXT NOT NULL"
+            +")"
+            );
+            db.setTransactionSuccessful();
+        }catch (SQLException exc){
+            Log.e("DBManager.onCreate", "Creando "+tabla_papelito+": "+exc.getMessage());
+        }
+        finally {
             db.endTransaction();
         }
     }
@@ -313,6 +335,68 @@ public class DBManager extends SQLiteOpenHelper {
         }
         return toret;
     }
+
+    public boolean insertarPapelito(String texto){
+        boolean toret=false;
+        ContentValues values = new ContentValues();
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        values.put(PAPELITO_texto, texto);
+
+        try{
+            db.beginTransaction();
+            db.insert(tabla_papelito,null, values); //Puede haber repetidos
+            db.setTransactionSuccessful();
+            toret = true;
+        }catch (SQLException exc){
+            Log.e("DBM.insertarPapelito", exc.getMessage());
+        }
+        finally {
+            db.endTransaction();
+        }
+        return toret;
+    }
+
+    public boolean eliminarPapelito(String id_papelito){
+        boolean toret = false;
+        Cursor cursor = null;
+        ContentValues values = new ContentValues();
+        SQLiteDatabase db = this.getWritableDatabase();
+        try{
+            db.beginTransaction();
+            db.delete(tabla_papelito, PAPELITO_texto + "=?", new String[]{id_papelito});
+            db.setTransactionSuccessful();
+            toret = true;
+        }catch (SQLException exc){
+            Log.e("DBM.eliminarPepelito", exc.getMessage());
+        }
+        finally {
+            db.endTransaction();
+        }
+        return toret;
+    }
+
+    public boolean modificarPapelito(String id_papelito, String new_Text){
+        boolean toret = false;
+        ContentValues values = new ContentValues();
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        values.put(PAPELITO_texto, new_Text);
+
+        try{
+            db.beginTransaction();
+            db.update(tabla_papelito, values, PAPELITO_id+"=?", new String[]{id_papelito});
+            db.setTransactionSuccessful();
+            toret = true;
+        }catch (SQLException exc){
+            Log.e("DBM.modificarPapelito", exc.getMessage());
+        }
+        finally {
+            db.endTransaction();
+        }
+        return toret;
+    }
+
     public Cursor getJugadores()
     {
         return this.getReadableDatabase().query( tabla_jugador,
@@ -345,11 +429,6 @@ public class DBManager extends SQLiteOpenHelper {
         return text;
     }
 
-    /*¿Hace falta eliminarPuntuacion() si ya tengo ON DELETE CAS
-    .
 
-
-
-    CADE en la fk?*/
 
 }
