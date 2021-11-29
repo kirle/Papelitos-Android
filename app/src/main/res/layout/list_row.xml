@@ -42,14 +42,6 @@
                 android:fontFamily="@font/delvue"
                 />
 
-            <TextView
-                android:id="@+id/list_item_description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Thats a n Item"
-                android:textSize="14sp" />
-
         </LinearLayout>
 
         <View
@@ -59,13 +51,24 @@
 
 
         <ImageButton
-            android:id="@+id/btn_delete_player"
+            android:id="@+id/btn_edit_team"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginRight="10dp"
             android:background="@mipmap/inkbottle"
             app:srcCompat="@mipmap/inkbottle"
+
+            />
+        <ImageView
+            android:id="@+id/btn_delete_player"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginRight="20dp"
+            android:background="@mipmap/paperbinicon"
+            app:srcCompat="@mipmap/paperbinicon"
+            android:clickable="true"
 
             />
 

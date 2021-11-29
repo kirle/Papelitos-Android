@@ -9,11 +9,11 @@
         <entry key="app/src/main/res/drawable/paperfly_animation.xml" value="0.27890625" />
         <entry key="app/src/main/res/drawable/textview_border.xml" value="0.371875" />
         <entry key="app/src/main/res/layout/activity_equipos.xml" value="0.29483695652173914" />
-        <entry key="app/src/main/res/layout/activity_help.xml" value="0.35520833333333335" />
+        <entry key="app/src/main/res/layout/activity_help.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_instructions.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/activity_options.xml" value="0.22" />
-        <entry key="app/src/main/res/layout/activity_registrar_equipos.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_options.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_registrar_equipos.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_registrar_jugadores.xml" value="0.2" />
         <entry key="app/src/main/res/layout/activity_round_timer.xml" value="0.18" />
         <entry key="app/src/main/res/layout/dialog_layout_delete_player.xml" value="0.33" />

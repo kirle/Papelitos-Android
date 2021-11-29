@@ -6,4 +6,77 @@
     android:layout_height="match_parent"
     tools:context=".iu.Help">
 
+
+    <LinearLayout
+        android:id="@+id/layout_activity_options"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@mipmap/backgroundrose"
+        >
+
+        <!-- Header -->
+        <LinearLayout
+            android:id="@+id/options_header"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:layout_weight="0.5"
+            >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="OPCIONES"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:fontFamily="@font/delvue"
+                android:textSize="32dp"
+                >
+
+            </TextView>
+
+
+        </LinearLayout>
+
+        <!-- Body -->
+        <LinearLayout
+            android:id="@+id/options_body"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:layout_weight="2"
+            >
+
+        </LinearLayout>
+
+        <!-- Footer -->
+        <LinearLayout
+            android:id="@+id/options_footer"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:layout_weight="0.5"
+            >
+            <!-- Buttons previous , next -->
+            <ImageButton
+                android:id="@+id/btn_backplayers"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:background="@mipmap/paperleft"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5">
+
+            </View>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+    
 </androidx.constraintlayout.widget.ConstraintLayout>

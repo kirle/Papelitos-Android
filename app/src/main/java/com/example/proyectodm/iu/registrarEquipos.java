@@ -1,24 +1,35 @@
 package com.example.proyectodm.iu;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CursorAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.proyectodm.R;
+import com.example.proyectodm.core.DBManager;
 
+import java.util.ArrayList;
 
 
 public class registrarEquipos extends AppCompatActivity {
 
-    String[] data = new String[]{"Equipo1", "Equipo2", "Equipo3", "Equipo4", "Equipo5", "Equipo6", "Caca"  };
+    private DBManager gestorDB;
+    private MyAdapter myAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -26,13 +37,17 @@ public class registrarEquipos extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrar_equipos);
 
+        this.gestorDB = new DBManager( this.getApplicationContext());
+
+
         ListView listView = (ListView) findViewById(R.id.list);
 
-        CustomAdapter customAdapter = new CustomAdapter();
-        //ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_row, R.id.list, data);
-        // Assign adapter to ListView
+        String[] projections = {gestorDB.JUGADOR_id, gestorDB.JUGADOR_nombre};
+        Cursor c = gestorDB.getWritableDatabase().query( gestorDB.tabla_jugador,
+                projections, null, null, null, null, null );
 
-        listView.setAdapter(customAdapter);
+        this.myAdapter = new MyAdapter(this,c);
+        listView.setAdapter(myAdapter);
 
         ImageButton btn_back = (ImageButton) findViewById(R.id.imageButtonLeft);
         ImageButton btn_go = (ImageButton) findViewById(R.id.imageButtonRight);
@@ -67,37 +82,105 @@ public class registrarEquipos extends AppCompatActivity {
         mediaPlayer.start();
     }
 
+    public void updateTeams(){
+        this.myAdapter.changeCursor(gestorDB.getJugadores());
 
-
-    class CustomAdapter extends BaseAdapter{
-
-        @Override
-        public int getCount() {
-            return data.length;
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int position, View view, ViewGroup parent) {
-            view = getLayoutInflater().inflate(R.layout.list_row, null);
-            TextView textView_name = (TextView) view.findViewById(R.id.list_item_name);
-            textView_name.setText(data[position]);
-
-            return view;
-        }
     }
 
-}
 
+    class MyAdapter extends CursorAdapter {
+        private LayoutInflater mLayoutInflater;
+
+        ArrayList<String> data;
+        Context context;
+
+        public MyAdapter(Context context, Cursor c) {
+            super(context, c );
+            this.context = context;
+
+            this.data = new ArrayList<>();
+
+            mLayoutInflater = LayoutInflater.from(context);
+
+        }//hola
+
+
+        public void add(String text){
+            if(registrarEquipos.this.gestorDB.insertarJugador(text)){
+                System.out.println("Jugador añadido");
+                updateTeams();
+                notifyDataSetChanged();
+            } else{
+                System.out.println("ERROR al añadir jugador");
+            }
+
+
+        }
+        public void remove(String text){
+            if(registrarEquipos.this.gestorDB.eliminarJugador(text)){
+                updateTeams();
+                notifyDataSetChanged();
+                Log.e("Error" , "player deleted");
+
+            } else{
+                Log.e("Error" , "error deleting player ");
+            }
+
+
+
+        }
+        public void modify(String pos, String text){
+            registrarEquipos.this.gestorDB.modificarJugador(pos, text);
+        }
+
+        @Override
+        public View newView(Context context, Cursor cursor, ViewGroup parent) {
+            View v = mLayoutInflater.inflate(R.layout.list_row, parent, false);
+            return v;        }
+
+        @Override
+        public void bindView(View v, Context context, Cursor cursor) {
+
+            //Index of player
+            String index = cursor.getString(0);
+
+
+
+            //On Player image icon (delete) click
+            ImageView delete_image_view = (ImageView) v.findViewById(R.id.btn_delete_player);
+            delete_image_view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+                    builder.setTitle("Eliminar equipo:");
+                    builder.setMessage("¿Estas seguro?:");
+                    builder.setPositiveButton("CONFIRMAR", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            remove(index);
+                        }
+                    });
+                    builder.setNegativeButton("CANCELAR", null);
+                    builder.create();
+
+                    LayoutInflater inflater = getLayoutInflater();
+                    View dialogLayout = inflater.inflate(R.layout.dialog_layout_delete_player, null);
+                    builder.setView(dialogLayout);
+                    builder.show();
+
+                }
+            });
+
+        }
+
+
+    }
+
+
+
+
+}
 
 
 

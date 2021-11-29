@@ -73,17 +73,15 @@ public class RegistrarJugadores extends AppCompatActivity {
         });
 
         //List Adapter
-
         String[] projections = {gestorDB.JUGADOR_id, gestorDB.JUGADOR_nombre};
-
         Cursor c = gestorDB.getWritableDatabase().query( gestorDB.tabla_jugador,
                 projections, null, null, null, null, null );
+
         ListView listView = (ListView) findViewById(R.id.playerList);
 
-        this.myAdapter = new MyAdapter(this, c);
 
+        
         // Assign adapter to ListView
-
         listView.setAdapter(myAdapter);
 
 
