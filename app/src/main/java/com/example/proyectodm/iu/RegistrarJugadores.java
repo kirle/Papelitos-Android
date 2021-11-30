@@ -40,8 +40,8 @@ public class RegistrarJugadores extends AppCompatActivity {
         this.gestorDB = DBManager.getInstance(this.getApplicationContext()); //Singleton
 
         // Views for layout
-        ImageButton btngoplayers = (ImageButton) findViewById(R.id.btn_goplayers);
-        ImageButton btnbackplayers = (ImageButton) findViewById(R.id.btn_backplayers);
+        ImageButton btngoplayers = (ImageButton) findViewById(R.id.btn_gopapelitos);
+        ImageButton btnbackplayers = (ImageButton) findViewById(R.id.btn_backpapelitos);
         ImageButton btnadd = (ImageButton) findViewById(R.id.btn_addPlayer);
 
         // Btn Listener añadir
@@ -78,7 +78,7 @@ public class RegistrarJugadores extends AppCompatActivity {
 
         Cursor c = gestorDB.getWritableDatabase().query( gestorDB.tabla_jugador,
                 projections, null, null, null, null, null );
-        ListView listView = (ListView) findViewById(R.id.playerList);
+        ListView listView = (ListView) findViewById(R.id.papersList);
 
         this.myAdapter = new MyAdapter(this, c);
 

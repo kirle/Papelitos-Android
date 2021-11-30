@@ -59,7 +59,7 @@
             >
             <!-- Buttons previous , next -->
             <ImageButton
-                android:id="@+id/btn_backplayers"
+                android:id="@+id/btn_backpapelitos"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"

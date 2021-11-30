@@ -35,6 +35,7 @@ public class DBManager extends SQLiteOpenHelper {
     /*Campos tabla PAPELITO*/
     public static String PAPELITO_id="_id";
     public static String PAPELITO_texto="texto";
+    public static String EQUIPO_id_fk3="id_equipo";
 
     SQLiteDatabase db;
 
@@ -108,7 +109,8 @@ public class DBManager extends SQLiteOpenHelper {
             db.beginTransaction();
             db.execSQL("CREATE TABLE IF NOT EXISTS "+tabla_papelito + " ("
             + PAPELITO_id + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, "
-            + PAPELITO_texto + "TEXT NOT NULL"
+            + PAPELITO_texto + "TEXT NOT NULL,"
+            + EQUIPO_id_fk3 +"INTEGER DEFAULT NULL, FOREIGN KEY ("+EQUIPO_id_fk3+") REFERENCES " + tabla_equipo + "("+EQUIPO_id+") ON DELETE CASCADE"
             +")"
             );
             db.setTransactionSuccessful();
@@ -209,8 +211,6 @@ public class DBManager extends SQLiteOpenHelper {
     }
 
 
-
-
     public boolean insertarEquipo(String nombre_equipo){ /*Registrar equipo*/
         boolean toret = false;
         Cursor cursor = null;
@@ -289,12 +289,59 @@ public class DBManager extends SQLiteOpenHelper {
         return toret;
     }
 
+    public boolean asignarPapelito_Equipo(String id_papelito, String id_equipo){
+        boolean toret = false;
+        Cursor cursor = null;
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(PAPELITO_id, id_papelito);
+        values.put(EQUIPO_id_fk3, id_equipo);
+
+        try{
+            db.beginTransaction();
+            cursor = db.query(tabla_papelito, null, PAPELITO_id + "=? AND " + EQUIPO_id_fk3
+                    + "=?", new String[]{id_papelito, id_equipo}, null, null, null, null);
+            if(cursor.getCount() > 0){
+                db.update(tabla_papelito, values, PAPELITO_id + "=? AND " + EQUIPO_id_fk3
+                        + "=?", new String[]{id_papelito, id_equipo});
+            }
+            else{
+                db.insert(tabla_papelito, null, values);
+            }
+            db.setTransactionSuccessful();
+            toret = true;
+        }catch(SQLException exc){
+        }finally {
+            if(cursor != null){
+                cursor.close();
+            }
+            db.endTransaction();
+        }
+        return toret;
+    }
+
     public boolean eliminarAsignacionJugador_Equipo(String id_jugador, String id_equipo){
         boolean toret = false;
         SQLiteDatabase db = this.getWritableDatabase();
         try {
             db.beginTransaction();
             db.delete(tabla_jugador, JUGADOR_id + "=? AND "+EQUIPO_id_fk+" =?", new String[]{id_jugador, id_equipo});
+            db.setTransactionSuccessful();
+            toret = true;
+        }catch(SQLException exc){
+        }finally {
+            db.endTransaction();
+        }
+        return toret;
+    }
+
+    public boolean eliminarAsignacionPapelito_Equipo(String id_papelito, String id_equipo){
+        boolean toret = false;
+        SQLiteDatabase db = this.getWritableDatabase();
+        try {
+            db.beginTransaction();
+            db.delete(tabla_papelito, PAPELITO_id+ "=? AND "+EQUIPO_id_fk3+" =?", new String[]{id_papelito, id_equipo});
             db.setTransactionSuccessful();
             toret = true;
         }catch(SQLException exc){
@@ -397,6 +444,11 @@ public class DBManager extends SQLiteOpenHelper {
         return toret;
     }
 
+    public Cursor getPapelitos(){
+        return this.getWritableDatabase().query(tabla_papelito,
+                new String[]{PAPELITO_id},null,null,null, null,null);
+    }
+
     public Cursor getJugadores()
     {
         return this.getReadableDatabase().query( tabla_jugador,
@@ -415,6 +467,31 @@ public class DBManager extends SQLiteOpenHelper {
         try{
             db.beginTransaction();
             String query = "SELECT nombre FROM jugador WHERE _id==" + id+ ";";
+            c = db.rawQuery(query,null);
+            c.moveToFirst();
+            text = c.getString(0);
+        } catch (SQLException e){
+            e.getMessage();
+        }finally {
+            if(c != null){
+                c.close();
+            }
+            db.endTransaction();
+        }
+        return text;
+    }
+
+    public String getPapelito(int id){
+        String text = "";
+        boolean toRet = false;
+        Cursor c = null;
+        db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(PAPELITO_id, id);
+
+        try{
+            db.beginTransaction();
+            String query = "SELECT nombre FROM "+ tabla_papelito +" WHERE _id==" + id+ ";";
             c = db.rawQuery(query,null);
             c.moveToFirst();
             text = c.getString(0);

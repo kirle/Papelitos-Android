@@ -84,7 +84,7 @@
         </LinearLayout>
 
         <ListView
-            android:id="@+id/playerList"
+            android:id="@+id/papersList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="0.2">
@@ -99,7 +99,7 @@
             android:weightSum="1">
 
             <ImageButton
-                android:id="@+id/btn_backplayers"
+                android:id="@+id/btn_backpapelitos"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"
@@ -110,7 +110,7 @@
 
 
             <ImageButton
-                android:id="@+id/btn_goplayers"
+                android:id="@+id/btn_gopapelitos"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"
