@@ -92,7 +92,7 @@ public class RegistrarJugadores extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        updatePlayers();
+        //updatePlayers();
 
     }
 
@@ -244,7 +244,7 @@ public class RegistrarJugadores extends AppCompatActivity {
 
 
             //On Player image icon (delete) click
-            ImageView delete_image_view = (ImageView) v.findViewById(R.id.btn_delete_player);
+            ImageView delete_image_view = (ImageView) v.findViewById(R.id.btn_delete_team);
             delete_image_view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
