@@ -37,11 +37,11 @@ public class RegistrarJugadores extends AppCompatActivity {
         setContentView(R.layout.activity_registrar_jugadores);
 
         // Creating DB
-        this.gestorDB = new DBManager( this.getApplicationContext());
+        this.gestorDB = DBManager.getInstance(this.getApplicationContext()); //Singleton
 
         // Views for layout
-        ImageButton btngoplayers = (ImageButton) findViewById(R.id.btn_goplayers);
-        ImageButton btnbackplayers = (ImageButton) findViewById(R.id.btn_backplayers);
+        ImageButton btngoplayers = (ImageButton) findViewById(R.id.btn_gopapelitos);
+        ImageButton btnbackplayers = (ImageButton) findViewById(R.id.btn_backpapelitos);
         ImageButton btnadd = (ImageButton) findViewById(R.id.btn_addPlayer);
 
         // Btn Listener añadir
@@ -73,15 +73,17 @@ public class RegistrarJugadores extends AppCompatActivity {
         });
 
         //List Adapter
+
         String[] projections = {gestorDB.JUGADOR_id, gestorDB.JUGADOR_nombre};
+
         Cursor c = gestorDB.getWritableDatabase().query( gestorDB.tabla_jugador,
                 projections, null, null, null, null, null );
+        ListView listView = (ListView) findViewById(R.id.papersList);
 
-        ListView listView = (ListView) findViewById(R.id.playerList);
+        this.myAdapter = new MyAdapter(this, c);
 
-
-        
         // Assign adapter to ListView
+
         listView.setAdapter(myAdapter);
 
 
@@ -189,7 +191,7 @@ public class RegistrarJugadores extends AppCompatActivity {
 
             mLayoutInflater = LayoutInflater.from(context);
 
-        }//hola
+        }
 
 
         public void add(String text){
