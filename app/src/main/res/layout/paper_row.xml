@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/backgroundrose"
+    android:orientation="vertical"
+    tools:context=".iu.GestionPapelitos">
+
+    <LinearLayout
+        android:id="@+id/layout_item"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginLeft="16dp"
+        android:layout_margin="10dp"
+        android:weightSum="1"
+
+
+        android:background="@mipmap/paperbackground">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_weight="0.33"
+            android:layout_gravity="center"
+            >
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:background="@mipmap/papericon"
+                app:srcCompat="@mipmap/papericon"
+
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical"
+            android:layout_weight="0.33"
+            >
+
+            <TextView
+                android:id="@+id/lbl_paperName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/delvue"
+                android:text="Palabra"
+                android:textSize="24dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_weight="0.33"
+
+            >
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+
+            <ImageView
+                android:id="@+id/btn_delete_paper"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="20dp"
+                android:background="@mipmap/paperbinicon"
+                app:srcCompat="@mipmap/paperbinicon"
+                android:clickable="true"
+
+                />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
