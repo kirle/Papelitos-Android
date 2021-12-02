@@ -41,7 +41,7 @@ public class DBManager extends SQLiteOpenHelper {
 
     private DBManager(Context context){
         super(context, db_name, null, db_version);
-        //context.deleteDatabase("papelitos");
+        context.deleteDatabase("papelitos");
 
     }
 
@@ -411,7 +411,7 @@ public class DBManager extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         try{
             db.beginTransaction();
-            db.delete(tabla_papelito, PAPELITO_texto + "=?", new String[]{id_papelito});
+            db.delete(tabla_papelito, PAPELITO_id + "=?", new String[]{id_papelito});
             db.setTransactionSuccessful();
             toret = true;
         }catch (SQLException exc){
