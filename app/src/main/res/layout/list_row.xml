@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@mipmap/backgroundrose"
     android:orientation="vertical"
-    tools:context=".iu.registrarEquipos">
+    tools:context=".iu.RegistrarEquipos">
 
     <LinearLayout
         android:id="@+id/layout_item"

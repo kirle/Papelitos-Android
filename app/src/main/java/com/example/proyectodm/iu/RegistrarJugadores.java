@@ -56,7 +56,7 @@ public class RegistrarJugadores extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 playSound();
-                Intent myIntent = new Intent(RegistrarJugadores.this, registrarEquipos.class);
+                Intent myIntent = new Intent(RegistrarJugadores.this, GestionPapelitos.class);
                 myIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 RegistrarJugadores.this.startActivity(myIntent);
             }
@@ -244,7 +244,7 @@ public class RegistrarJugadores extends AppCompatActivity {
 
 
             //On Player image icon (delete) click
-            ImageView delete_image_view = (ImageView) v.findViewById(R.id.btn_delete_team);
+            ImageView delete_image_view = (ImageView) v.findViewById(R.id.btn_delete_player);
             delete_image_view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

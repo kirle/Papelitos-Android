@@ -35,7 +35,7 @@ public class DBManager extends SQLiteOpenHelper {
     /*Campos tabla PAPELITO*/
     public static String PAPELITO_id="_id";
     public static String PAPELITO_texto="texto";
-    public static String EQUIPO_id_fk3="id_equipo";
+    public static String EQUIPO_id_fk3="id_equipo_2";
 
     SQLiteDatabase db;
 
@@ -109,8 +109,8 @@ public class DBManager extends SQLiteOpenHelper {
             db.beginTransaction();
             db.execSQL("CREATE TABLE IF NOT EXISTS "+tabla_papelito + " ("
             + PAPELITO_id + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, "
-            + PAPELITO_texto + "TEXT NOT NULL,"
-            + EQUIPO_id_fk3 +"INTEGER DEFAULT NULL, FOREIGN KEY ("+EQUIPO_id_fk3+") REFERENCES " + tabla_equipo + "("+EQUIPO_id+") ON DELETE CASCADE"
+            + PAPELITO_texto + " TEXT NOT NULL,"
+            + EQUIPO_id_fk3 +" INTEGER, FOREIGN KEY ("+EQUIPO_id_fk3+") REFERENCES " + tabla_equipo + "("+EQUIPO_id+") ON DELETE CASCADE"
             +")"
             );
             db.setTransactionSuccessful();
@@ -491,7 +491,7 @@ public class DBManager extends SQLiteOpenHelper {
 
         try{
             db.beginTransaction();
-            String query = "SELECT nombre FROM "+ tabla_papelito +" WHERE _id==" + id+ ";";
+            String query = "SELECT "+PAPELITO_texto+" FROM "+ tabla_papelito +" WHERE _id==" + id+ ";";
             c = db.rawQuery(query,null);
             c.moveToFirst();
             text = c.getString(0);

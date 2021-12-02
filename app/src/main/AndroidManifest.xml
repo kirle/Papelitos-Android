@@ -17,7 +17,12 @@
             android:exported="false" />
         <activity
             android:name=".iu.RegistrarJugadores"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".iu.GestionPapelitos"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".iu.Instructions"
             android:exported="false"
@@ -27,7 +32,7 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".iu.registrarEquipos"
+            android:name=".iu.RegistrarEquipos"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
