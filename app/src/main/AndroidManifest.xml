@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ProyectoDM">
         <activity
+            android:name=".iu.VistaEquipo"
+            android:exported="false" />
+        <activity
             android:name=".iu.Help"
             android:exported="false" />
         <activity
@@ -18,11 +21,11 @@
         <activity
             android:name=".iu.RegistrarJugadores"
             android:exported="false"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".iu.GestionPapelitos"
             android:exported="false"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".iu.Instructions"
             android:exported="false"
