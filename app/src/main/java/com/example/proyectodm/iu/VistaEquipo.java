@@ -6,10 +6,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -30,16 +32,26 @@ public class VistaEquipo extends AppCompatActivity {
         ListView listView = (ListView) findViewById(R.id.list_players);
 
         //  db query for list
-        Cursor c = gestorDB.getJugadoresDisponibles();
-
+        String[] projections = {gestorDB.JUGADOR_id, gestorDB.JUGADOR_nombre};
+        Cursor c = gestorDB.getWritableDatabase().query( gestorDB.tabla_jugador,
+                projections, null, null, null, null, null );
+        this.myAdapter = new CustomListAdapter(this, c);
         listView.setAdapter(myAdapter);
+
+        Button btn_ok = (Button) findViewById(R.id.btn_ok);
+        btn_ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick (View v) {
+
+            }
+        });
+
     }
 
     public class CustomListAdapter extends CursorAdapter {
         private DBManager gestorDB;
         private LayoutInflater mLayoutInflater;
-        Context context;
-        int rowLayoutId;
+        private Context context;
 
         public CustomListAdapter (Context context, Cursor cursor) {
             super(context, cursor);
@@ -48,68 +60,40 @@ public class VistaEquipo extends AppCompatActivity {
             this.gestorDB = DBManager.getInstance(context);
         }
 
-        //  ** CRUD TEAMS **
-
-        public void addTeam(String teamName){
-            if(gestorDB.insertarEquipo(teamName)){
-                System.out.println("Equipo añadido");
-                updateTeams();
-                notifyDataSetChanged();
-            } else{
-                System.out.println("ERROR al añadir equipo");
-            }
-        }
         public void updateTeams(){
-            this.changeCursor(gestorDB.getEquipos());
+            this.changeCursor(gestorDB.getJugadores());
             notifyDataSetChanged();
-        }
-
-        public void removeTeam(String teamName) {
-            if (this.gestorDB.eliminarEquipo(teamName)) {
-                updateTeams();
-                notifyDataSetChanged();
-            } else {
-                System.err.println("ERROR ELIMINANDO EQUIPO");
-            }
         }
 
         @Override
         public View newView (Context context, Cursor cursor, ViewGroup parent) {
-            View v = mLayoutInflater.inflate(rowLayoutId, parent, false);
+            View v = mLayoutInflater.inflate(R.layout.select_player_row, parent, false);
             return v;
         }
 
         @Override
         public void bindView (View view, Context context, Cursor cursor) {
             String index = cursor.getString(0);
-
+            final boolean[] clicked = {false};
             TextView txtView = (TextView) view.findViewById(R.id.lbl_playerName);
-            ImageView delete_image_view = (ImageView) view.findViewById(R.id.btn_delete_team);
-            delete_image_view.setOnClickListener(new View.OnClickListener() {
+            txtView.setText(gestorDB.getJugador(Integer.valueOf(index)));
+
+            ImageView imgClickable = (ImageView) view.findViewById(R.id.img_clickable);
+                imgClickable.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                public void onClick (View v) {
+                    if(clicked[0]){
+                        clicked[0] = false;
+                        imgClickable.setBackgroundResource(R.mipmap.clicable);
+                    }  else {
+                        clicked[0] = true;
+                        imgClickable.setBackgroundResource(R.mipmap.clickableclicked);
 
-                    builder.setTitle("Eliminar equipo:");
-                    builder.setMessage("¿Estas seguro?:");
-                    builder.setPositiveButton("CONFIRMAR", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            removeTeam(index);
-                        }
-                    });
-                    builder.setNegativeButton("CANCELAR", null);
-                    builder.create();
-
-                    LayoutInflater inflater = LayoutInflater.from(context);
-                    View dialogLayout = inflater.inflate(R.layout.dialog_layout_delete_player, null);
-                    builder.setView(dialogLayout);
-                    builder.show();
-
+                    }
                 }
             });
-
         }
+
 
     }
 

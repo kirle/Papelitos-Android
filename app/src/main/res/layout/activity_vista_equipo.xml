@@ -51,18 +51,18 @@
             >
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/btn_cancelar"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Button" />
+                android:text="CANCELAR" />
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/btn_ok"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Button" />
+                android:text="OK" />
         </LinearLayout>
     </LinearLayout>
 
