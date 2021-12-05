@@ -3,16 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".iu.RoundTimer">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:weightSum="1"
         android:background="@mipmap/backgroundrose"
-        >
+        android:orientation="vertical"
+        android:weightSum="1">
 
         <LinearLayout
             android:id="@+id/frameHeader"
@@ -28,23 +27,49 @@
                 android:id="@+id/btn_menu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@mipmap/menuicon"
-                android:padding="100px"
-                android:layout_marginTop="30px"
                 android:layout_marginLeft="50px"
-                />
+                android:layout_marginTop="30px"
+                android:background="@mipmap/menuicon"
+                android:padding="100px" />
 
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/frameTimer"
             android:layout_width="match_parent"
-            android:layout_height="1000dp"
-            android:orientation="vertical"
-            android:layout_weight="0.45"
-            android:weightSum="1"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
-            >
+            android:layout_weight="0.45"
+            android:orientation="vertical"
+            android:weightSum="1">
+
+            <TextView
+                android:id="@+id/textTeam"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="0.25"
+                android:fontFamily="@font/fatchicks"
+                android:gravity="center"
+                android:text="Equipo:"
+                android:textAlignment="center"
+                android:textSize="50dp"
+
+                />
+
+            <TextView
+                android:id="@+id/textPoints"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="0.25"
+                android:fontFamily="@font/fatchicks"
+                android:gravity="center"
+                android:text="Puntuacion:"
+                android:textAlignment="center"
+                android:textSize="50dp"
+
+                />
 
             <TextView
                 android:id="@+id/textView4"
@@ -52,11 +77,11 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="0.25"
+                android:fontFamily="@font/fatchicks"
+                android:gravity="center"
                 android:text="Tiempo restante:"
                 android:textAlignment="center"
                 android:textSize="50dp"
-                android:fontFamily="@font/fatchicks"
-                android:gravity="center"
 
                 />
 
@@ -66,11 +91,11 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="0.75"
-                android:text="01:00"
-                android:textSize="100dp"
                 android:fontFamily="@font/fatchicks"
+                android:text="01:00"
+                android:textAlignment="center"
 
-                android:textAlignment="center" />
+                android:textSize="100dp" />
 
             <Button
                 android:id="@+id/button_start_pause"
@@ -79,8 +104,18 @@
                 android:layout_below="@+id/txt_timer"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center"
-                android:text="start"
-                android:fontFamily="@font/fatchicks"/>
+                android:fontFamily="@font/fatchicks"
+                android:text="start" />
+
+            <Button
+                android:id="@+id/button_correct"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txt_timer"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:fontFamily="@font/fatchicks"
+                android:text="¡Correcto!" />
 
             <Button
                 android:id="@+id/button_reset"
@@ -88,42 +123,36 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_toEndOf="@+id/button_start_pause"
-                android:text="reset"
                 android:fontFamily="@font/fatchicks"
+                android:text="reset"
                 android:visibility="invisible"
                 tools:visibility="visible" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/frameButtons"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_weight="0.6"
+            android:gravity="bottom"
             android:orientation="horizontal"
-            android:layout_weight="0.45"
-            android:weightSum="1"
+            android:weightSum="1">
 
-            >
+            <ImageButton
+                android:id="@+id/btn_back"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:background="@mipmap/paperleft" />
 
 
             <ImageButton
-                android:id="@+id/btn_backtimer"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:background="@mipmap/backbtn"
-                android:layout_weight="0.5"
-                android:alpha="0.6"
-
-                />
-
-            <ImageButton
-                android:id="@+id/btnoktimer"
-                android:layout_width="wrap_content"
+                android:id="@+id/btn_go"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"
-                android:background="@mipmap/okbtn"
-                android:alpha="0.6"
-                />
+                android:background="@mipmap/paperright" />
+
         </LinearLayout>
 
     </LinearLayout>

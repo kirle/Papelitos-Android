@@ -11,15 +11,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.proyectodm.R;
+import com.example.proyectodm.core.DBManager;
 
 import java.util.Locale;
 
 public class RoundTimer extends AppCompatActivity {
 
-    private static final long START_TIME_IN_MILLIS = 600000;
+    private static final long START_TIME_IN_MILLIS = 60000;
 
     private TextView txt_timer;
     private Button mButtonStartPause;
@@ -31,15 +31,20 @@ public class RoundTimer extends AppCompatActivity {
 
     private long mTimeLeftInMillis = START_TIME_IN_MILLIS;
 
+    private DBManager db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_round_timer);
 
+        this.db = DBManager.getInstance(this.getApplicationContext());
+
         txt_timer = (TextView) findViewById(R.id.txt_timer);
 
         mButtonStartPause = findViewById(R.id.button_start_pause);
         mButtonReset = findViewById(R.id.button_reset);
+        Button mButtonCorrect = (Button) findViewById(R.id.button_correct);
 
 
         ImageButton btn_back = (ImageButton) findViewById(R.id.btn_menu);
@@ -52,6 +57,13 @@ public class RoundTimer extends AppCompatActivity {
                 }else{
                     startTimer();
                 }
+            }
+        });
+
+        mButtonCorrect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
 
@@ -115,6 +127,14 @@ public class RoundTimer extends AppCompatActivity {
         mTimeLeftInMillis = START_TIME_IN_MILLIS;
         updateCountDownText();
         mButtonReset.setVisibility(View.INVISIBLE);
+    }
+
+    private int calculatePoints(){
+        String aux = txt_timer.getText().toString().substring(2);
+        int actualSeconds = Integer.parseInt(aux);
+        int originalSeconds = (int) START_TIME_IN_MILLIS/1000;
+        int points = originalSeconds - actualSeconds;
+        return points;
     }
 
     private void updateCountDownText(){

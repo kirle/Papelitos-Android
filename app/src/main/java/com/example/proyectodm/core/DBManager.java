@@ -41,7 +41,7 @@ public class DBManager extends SQLiteOpenHelper {
 
     private DBManager(Context context){
         super(context, db_name, null, db_version);
-        context.deleteDatabase("papelitos");
+        //context.deleteDatabase("papelitos");
 
     }
 
@@ -455,6 +455,11 @@ public class DBManager extends SQLiteOpenHelper {
                 new String[]{JUGADOR_id}, null, null, null, null, null );
     }
 
+    public Cursor getPuntuaciones(){
+        return this.getReadableDatabase().query( tabla_puntuacion,
+                new String[]{EQUIPO_id_fk2}, null, null, null, null, null );
+    }
+
     //Get certain player from id
     public String getJugador(int id){
         String text = "";
@@ -492,6 +497,31 @@ public class DBManager extends SQLiteOpenHelper {
         try{
             db.beginTransaction();
             String query = "SELECT "+PAPELITO_texto+" FROM "+ tabla_papelito +" WHERE _id==" + id+ ";";
+            c = db.rawQuery(query,null);
+            c.moveToFirst();
+            text = c.getString(0);
+        } catch (SQLException e){
+            e.getMessage();
+        }finally {
+            if(c != null){
+                c.close();
+            }
+            db.endTransaction();
+        }
+        return text;
+    }
+
+    public String getPuntuacion(int id){
+        String text = "";
+        boolean toRet = false;
+        Cursor c = null;
+        db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(EQUIPO_id_fk2, id);
+
+        try{
+            db.beginTransaction();
+            String query = "SELECT puntuacion FROM puntuacion WHERE _id==" + id+ ";";
             c = db.rawQuery(query,null);
             c.moveToFirst();
             text = c.getString(0);
