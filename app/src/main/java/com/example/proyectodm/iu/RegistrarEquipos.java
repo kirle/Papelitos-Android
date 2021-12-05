@@ -86,22 +86,9 @@ public class RegistrarEquipos extends AppCompatActivity {
     // ** LISTENERS FUNCTIONS **
 
     public void onAdd(){
-        final EditText editText = new EditText(this);
+        Intent intent = new Intent(RegistrarEquipos.this, VistaEquipo.class);
+        startActivity(intent);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Introduce nombre equipo");
-        builder.setMessage("Nombre equipo");
-        builder.setView(editText);
-        builder.setPositiveButton("+", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String text = editText.getText().toString();
-                myAdapter.addTeam(text);
-                myAdapter.updateTeams();
-            }
-        });
-        builder.setNegativeButton("Cancel", null);
-        builder.create().show();
     }
 
 
