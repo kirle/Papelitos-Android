@@ -136,7 +136,56 @@ public class DBManager extends SQLiteOpenHelper {
         this.onCreate(db);
     }
 
-    //nuevo insertar Jugador
+    // ****
+    // -- OPERACIONES JUGADORES
+    // ****
+
+    public Cursor getJugadores()
+    {
+        return this.getReadableDatabase().query( tabla_jugador,
+                new String[]{JUGADOR_id}, null, null, null, null, null );
+    }
+
+    public String getJugador(int id){
+        String text = "";
+        boolean toRet = false;
+        Cursor c = null;
+        db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(JUGADOR_id, id);
+
+        try{
+            db.beginTransaction();
+            String query = "SELECT nombre FROM jugador WHERE _id==" + id+ ";";
+            c = db.rawQuery(query,null);
+            c.moveToFirst();
+            text = c.getString(0);
+        } catch (SQLException e){
+            e.getMessage();
+        }finally {
+            if(c != null){
+                c.close();
+            }
+            db.endTransaction();
+        }
+        return text;
+    }
+
+    public Cursor getJugadoresDisponibles(){
+        Cursor c = null;
+        db = this.getWritableDatabase();
+        try{
+            db.beginTransaction();
+            String query = "SELECT nombre FROM jugador WHERE id_equipo IS NOT NULL";
+            c = db.rawQuery(query,null);
+        } catch (SQLException e){
+            System.err.println(e.getMessage());
+        }
+        finally {
+            db.endTransaction();
+        }
+        return c;
+    }
     public boolean insertarJugador(String nombre){ //registrar jugador
 
         boolean toret = false;
@@ -176,22 +225,6 @@ public class DBManager extends SQLiteOpenHelper {
     }
 
 
-
-    public boolean eliminarJugador(String id_jugador){
-        boolean toret = false;
-        db = this.getWritableDatabase();
-        try{
-            db.beginTransaction();
-            db.delete(tabla_jugador, JUGADOR_id + "=?",new String[]{id_jugador});
-            db.setTransactionSuccessful();
-            toret = true;
-        }catch(SQLException exc){
-        }finally {
-            db.endTransaction();
-        }
-        return toret;
-    }
-
     public boolean modificarJugador(String id_jugador, String nuevo_nombre){
         boolean toret = false;
         db = this.getWritableDatabase();
@@ -210,6 +243,56 @@ public class DBManager extends SQLiteOpenHelper {
         return toret;
     }
 
+
+    public boolean eliminarJugador(String id_jugador){
+        boolean toret = false;
+        db = this.getWritableDatabase();
+        try{
+            db.beginTransaction();
+            db.delete(tabla_jugador, JUGADOR_id + "=?",new String[]{id_jugador});
+            db.setTransactionSuccessful();
+            toret = true;
+        }catch(SQLException exc){
+        }finally {
+            db.endTransaction();
+        }
+        return toret;
+    }
+
+
+    // ****
+    // -- OPERACIONES EQUIPOS
+    // ****
+
+    public Cursor getEquipos()
+    {
+        return this.getReadableDatabase().query( tabla_equipo,
+                new String[]{EQUIPO_id}, null, null, null, null, null );
+    }
+    public String getEquipo(int id){
+        String text = "";
+        boolean toRet = false;
+        Cursor c = null;
+        db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(EQUIPO_id, id);
+
+        try{
+            db.beginTransaction();
+            String query = "SELECT equipo_nombre FROM equipo WHERE _id==" + id+ ";";
+            c = db.rawQuery(query,null);
+            c.moveToFirst();
+            text = c.getString(0);
+        } catch (SQLException e){
+            e.getMessage();
+        }finally {
+            if(c != null){
+                c.close();
+            }
+            db.endTransaction();
+        }
+        return text;
+    }
 
     public boolean insertarEquipo(String nombre_equipo){ /*Registrar equipo*/
         boolean toret = false;
@@ -256,6 +339,104 @@ public class DBManager extends SQLiteOpenHelper {
         return toret;
     }
 
+    // ****
+    // -- OPERACIONES PAPELITOS
+    // ****
+
+    public boolean insertarPapelito(String texto){
+        boolean toret=false;
+        ContentValues values = new ContentValues();
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        values.put(PAPELITO_texto, texto);
+
+        try{
+            db.beginTransaction();
+            db.insert(tabla_papelito,null, values); //Puede haber repetidos
+            db.setTransactionSuccessful();
+            toret = true;
+        }catch (SQLException exc){
+            Log.e("DBM.insertarPapelito", exc.getMessage());
+        }
+        finally {
+            db.endTransaction();
+        }
+        return toret;
+    }
+
+    public boolean eliminarPapelito(String id_papelito){
+        boolean toret = false;
+        Cursor cursor = null;
+        ContentValues values = new ContentValues();
+        SQLiteDatabase db = this.getWritableDatabase();
+        try{
+            db.beginTransaction();
+            db.delete(tabla_papelito, PAPELITO_id + "=?", new String[]{id_papelito});
+            db.setTransactionSuccessful();
+            toret = true;
+        }catch (SQLException exc){
+            Log.e("DBM.eliminarPepelito", exc.getMessage());
+        }
+        finally {
+            db.endTransaction();
+        }
+        return toret;
+    }
+
+    public boolean modificarPapelito(String id_papelito, String new_Text){
+        boolean toret = false;
+        ContentValues values = new ContentValues();
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        values.put(PAPELITO_texto, new_Text);
+
+        try{
+            db.beginTransaction();
+            db.update(tabla_papelito, values, PAPELITO_id+"=?", new String[]{id_papelito});
+            db.setTransactionSuccessful();
+            toret = true;
+        }catch (SQLException exc){
+            Log.e("DBM.modificarPapelito", exc.getMessage());
+        }
+        finally {
+            db.endTransaction();
+        }
+        return toret;
+    }
+
+    public String getPapelito(int id){
+        String text = "";
+        boolean toRet = false;
+        Cursor c = null;
+        db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(PAPELITO_id, id);
+
+        try{
+            db.beginTransaction();
+            String query = "SELECT "+PAPELITO_texto+" FROM "+ tabla_papelito +" WHERE _id==" + id+ ";";
+            c = db.rawQuery(query,null);
+            c.moveToFirst();
+            text = c.getString(0);
+        } catch (SQLException e){
+            e.getMessage();
+        }finally {
+            if(c != null){
+                c.close();
+            }
+            db.endTransaction();
+        }
+        return text;
+    }
+
+    public Cursor getPapelitos(){
+        return this.getWritableDatabase().query(tabla_papelito,
+                new String[]{PAPELITO_id},null,null,null, null,null);
+    }
+
+    // ****
+    // -- ASIGNACIONES
+    // ****
 
     public boolean asignarJugador_Equipo(String id_jugador, String id_equipo){/*jugador X -> Y equipo*/
         boolean toret = false;
@@ -351,6 +532,11 @@ public class DBManager extends SQLiteOpenHelper {
         return toret;
     }
 
+    // ****
+    // -- OPERACIONES PUNTUACIONES
+    // ****
+
+
     public boolean modificarPuntuacion(String id_equipo, int puntos){/*Actualizar la puntuacion*/
         boolean toret = false;
         Cursor cursor = null;
@@ -381,129 +567,6 @@ public class DBManager extends SQLiteOpenHelper {
             db.endTransaction();
         }
         return toret;
-    }
-
-    public boolean insertarPapelito(String texto){
-        boolean toret=false;
-        ContentValues values = new ContentValues();
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        values.put(PAPELITO_texto, texto);
-
-        try{
-            db.beginTransaction();
-            db.insert(tabla_papelito,null, values); //Puede haber repetidos
-            db.setTransactionSuccessful();
-            toret = true;
-        }catch (SQLException exc){
-            Log.e("DBM.insertarPapelito", exc.getMessage());
-        }
-        finally {
-            db.endTransaction();
-        }
-        return toret;
-    }
-
-    public boolean eliminarPapelito(String id_papelito){
-        boolean toret = false;
-        Cursor cursor = null;
-        ContentValues values = new ContentValues();
-        SQLiteDatabase db = this.getWritableDatabase();
-        try{
-            db.beginTransaction();
-            db.delete(tabla_papelito, PAPELITO_id + "=?", new String[]{id_papelito});
-            db.setTransactionSuccessful();
-            toret = true;
-        }catch (SQLException exc){
-            Log.e("DBM.eliminarPepelito", exc.getMessage());
-        }
-        finally {
-            db.endTransaction();
-        }
-        return toret;
-    }
-
-    public boolean modificarPapelito(String id_papelito, String new_Text){
-        boolean toret = false;
-        ContentValues values = new ContentValues();
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        values.put(PAPELITO_texto, new_Text);
-
-        try{
-            db.beginTransaction();
-            db.update(tabla_papelito, values, PAPELITO_id+"=?", new String[]{id_papelito});
-            db.setTransactionSuccessful();
-            toret = true;
-        }catch (SQLException exc){
-            Log.e("DBM.modificarPapelito", exc.getMessage());
-        }
-        finally {
-            db.endTransaction();
-        }
-        return toret;
-    }
-
-    public Cursor getPapelitos(){
-        return this.getWritableDatabase().query(tabla_papelito,
-                new String[]{PAPELITO_id},null,null,null, null,null);
-    }
-
-    public Cursor getJugadores()
-    {
-        return this.getReadableDatabase().query( tabla_jugador,
-                new String[]{JUGADOR_id}, null, null, null, null, null );
-    }
-
-    //Get certain player from id
-    public String getJugador(int id){
-        String text = "";
-        boolean toRet = false;
-        Cursor c = null;
-        db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(JUGADOR_id, id);
-
-        try{
-            db.beginTransaction();
-            String query = "SELECT nombre FROM jugador WHERE _id==" + id+ ";";
-            c = db.rawQuery(query,null);
-            c.moveToFirst();
-            text = c.getString(0);
-        } catch (SQLException e){
-            e.getMessage();
-        }finally {
-            if(c != null){
-                c.close();
-            }
-            db.endTransaction();
-        }
-        return text;
-    }
-
-    public String getPapelito(int id){
-        String text = "";
-        boolean toRet = false;
-        Cursor c = null;
-        db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(PAPELITO_id, id);
-
-        try{
-            db.beginTransaction();
-            String query = "SELECT "+PAPELITO_texto+" FROM "+ tabla_papelito +" WHERE _id==" + id+ ";";
-            c = db.rawQuery(query,null);
-            c.moveToFirst();
-            text = c.getString(0);
-        } catch (SQLException e){
-            e.getMessage();
-        }finally {
-            if(c != null){
-                c.close();
-            }
-            db.endTransaction();
-        }
-        return text;
     }
 
 

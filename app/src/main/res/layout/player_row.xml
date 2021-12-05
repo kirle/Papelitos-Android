@@ -70,7 +70,7 @@
 
 
             <ImageView
-                android:id="@+id/btn_delete_player"
+                android:id="@+id/btn_delete_team"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

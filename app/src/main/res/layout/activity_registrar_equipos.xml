@@ -3,19 +3,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".iu.MainActivity"
+    tools:context=".iu.RegistrarEquipos"
 
     android:id="@+id/relativeLayout">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:background="@mipmap/backgroundrose"
         android:orientation="vertical"
         tools:layout_conversion_absoluteHeight="731dp"
         tools:layout_editor_absoluteY="0dp"
         tools:layout_editor_absoluteX="0dp"
-        tools:layout_conversion_absoluteWidth="411dp">
+        tools:layout_conversion_absoluteWidth="411dp"
+        >
 
         <!-- Top -->
         <LinearLayout
@@ -31,7 +32,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:layout_weight="0.5"
                 android:orientation="horizontal"
                 android:paddingTop="10dp"
                 >
@@ -55,6 +55,7 @@
                 android:layout_gravity="center"
                 android:weightSum="1"
                 android:padding="10dp"
+
                 >
 
                 <TextView
@@ -65,21 +66,18 @@
                     android:gravity="center"
                     android:textSize="24dp"
                     android:fontFamily="@font/delvue"
-                    android:layout_weight="0.8"
+                    android:layout_weight="1"
                     />
-
 
 
                 <ImageButton
-                    android:id="@+id/btn_addPlayer"
+                    android:id="@+id/btn_addTeam"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.2"
-                    android:layout_marginLeft="30dp"
-                    android:clickable="true"
                     android:background="@mipmap/addicon"
+                    android:clickable="true"
 
-                    />
+                    tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
 
 
             </LinearLayout>
@@ -91,7 +89,7 @@
         <ListView
             android:id="@+id/list"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
 
             android:choiceMode="singleChoice" />
