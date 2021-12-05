@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CursorAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -38,11 +40,30 @@ public class VistaEquipo extends AppCompatActivity {
         this.myAdapter = new CustomListAdapter(this, c);
         listView.setAdapter(myAdapter);
 
+        // ** LISTENERS
+
+        //Listener btn ok
         Button btn_ok = (Button) findViewById(R.id.btn_ok);
         btn_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick (View v) {
+                //Add selected to the team and register team
+                EditText txt_nombreEquipo = (EditText) findViewById(R.id.txt_nombreEquipo);
+                myAdapter.addTeam(txt_nombreEquipo.getText().toString());
 
+                Intent intent = new Intent(VistaEquipo.this, RegistrarEquipos.class);
+                startActivity(intent);
+            }
+        });
+
+        //Listener btn cancel
+        Button btn_cancelar = (Button) findViewById(R.id.btn_cancelar);
+        btn_cancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick (View v) {
+                // Go back to the team activity without do nothing
+                Intent intent = new Intent(VistaEquipo.this, RegistrarEquipos.class);
+                startActivity(intent);
             }
         });
 
@@ -60,8 +81,18 @@ public class VistaEquipo extends AppCompatActivity {
             this.gestorDB = DBManager.getInstance(context);
         }
 
+        public void addTeam(String teamName){
+            if(gestorDB.insertarEquipo(teamName)){
+                System.out.println("Equipo añadido");
+                updateTeams();
+                notifyDataSetChanged();
+            } else{
+                System.out.println("ERROR al añadir equipo");
+            }
+        }
+
         public void updateTeams(){
-            this.changeCursor(gestorDB.getJugadores());
+            this.changeCursor(gestorDB.getEquipos());
             notifyDataSetChanged();
         }
 

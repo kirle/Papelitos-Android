@@ -116,15 +116,7 @@ public class RegistrarEquipos extends AppCompatActivity {
 
         //  ** CRUD TEAMS **
 
-        public void addTeam(String teamName){
-            if(gestorDB.insertarEquipo(teamName)){
-                System.out.println("Equipo añadido");
-                updateTeams();
-                notifyDataSetChanged();
-            } else{
-                System.out.println("ERROR al añadir equipo");
-            }
-        }
+
         public void updateTeams(){
             this.changeCursor(gestorDB.getEquipos());
             notifyDataSetChanged();
