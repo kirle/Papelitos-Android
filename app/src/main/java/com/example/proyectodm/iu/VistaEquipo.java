@@ -87,9 +87,12 @@ public class VistaEquipo extends AppCompatActivity {
 
         public void addTeam(String teamName){
             if(gestorDB.insertarEquipo(teamName)){
+
                 String equipo_id = gestorDB.getIdFromTeamName(teamName);
 
                 for (int i=0; i<ids_jugadores.size(); i++){
+                    System.out.println("id jugador: " + ids_jugadores.get(i));
+                    System.out.println("EQUIPO ID:" + equipo_id);
                     gestorDB.asignarJugador_Equipo(ids_jugadores.get(i), equipo_id);
                 }
 
@@ -100,6 +103,8 @@ public class VistaEquipo extends AppCompatActivity {
                 System.out.println("ERROR al añadir equipo");
             }
         }
+
+
 
         public void updateTeams(){
             this.changeCursor(gestorDB.getEquipos());

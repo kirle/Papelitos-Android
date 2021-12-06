@@ -64,7 +64,7 @@ public class DBManager extends SQLiteOpenHelper {
             db.execSQL("CREATE TABLE IF NOT EXISTS " + tabla_jugador + "( "
                     + JUGADOR_id + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + JUGADOR_nombre + " TEXT NOT NULL,"
-                    + EQUIPO_id_fk + " INTEGER , FOREIGN KEY ("+EQUIPO_id_fk+") REFERENCES " + tabla_equipo + "("+EQUIPO_id+") ON DELETE CASCADE"
+                    + EQUIPO_id_fk + " INTEGER , FOREIGN KEY ("+EQUIPO_id_fk+") REFERENCES " + tabla_equipo + "("+EQUIPO_id+") "
                     + ")"
             );
             db.setTransactionSuccessful();
@@ -78,7 +78,7 @@ public class DBManager extends SQLiteOpenHelper {
         try{
             db.beginTransaction();
             db.execSQL("CREATE TABLE IF NOT EXISTS " + tabla_equipo + "("
-                    + EQUIPO_id + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"
+                    + EQUIPO_id + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, "
                     + EQUIPO_nombre + " TEXT NOT NULL"
                     + ")"
             );
@@ -145,6 +145,13 @@ public class DBManager extends SQLiteOpenHelper {
         return this.getReadableDatabase().query( tabla_jugador,
                 new String[]{JUGADOR_id}, null, null, null, null, null );
     }
+
+    public Cursor getJugadoresFromEquipo(String id_equipo)
+    {
+        return this.getReadableDatabase().query( tabla_jugador,
+                new String[]{JUGADOR_id}, EQUIPO_id_fk + "=?", new String[]{id_equipo}, null, null, null );
+    }
+
 
     public String getJugador(int id){
         String text = "";
@@ -465,7 +472,7 @@ public class DBManager extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        values.put(JUGADOR_id, id_jugador);
+        //values.put(JUGADOR_id, id_jugador);
         values.put(EQUIPO_id_fk, id_equipo);
 
         try{
@@ -477,7 +484,8 @@ public class DBManager extends SQLiteOpenHelper {
                         + "=?", new String[]{id_jugador, id_equipo});
             }
             else{
-                db.insert(tabla_jugador, null, values);
+                db.update(tabla_jugador, values, JUGADOR_id + "=?", new String[]{id_jugador});
+
             }
             db.setTransactionSuccessful();
             toret = true;
@@ -523,12 +531,17 @@ public class DBManager extends SQLiteOpenHelper {
         return toret;
     }
 
-    public boolean eliminarAsignacionJugador_Equipo(String id_jugador, String id_equipo){
+    public boolean eliminarAsignacionJugador_Equipo(String id_jugador){
         boolean toret = false;
+        ContentValues values = new ContentValues();
+
+        values.put(EQUIPO_id_fk, "null");
+
         SQLiteDatabase db = this.getWritableDatabase();
         try {
             db.beginTransaction();
-            db.delete(tabla_jugador, JUGADOR_id + "=? AND "+EQUIPO_id_fk+" =?", new String[]{id_jugador, id_equipo});
+            db.update(tabla_jugador, values, JUGADOR_id + "=?", new String[]{id_jugador});
+
             db.setTransactionSuccessful();
             toret = true;
         }catch(SQLException exc){

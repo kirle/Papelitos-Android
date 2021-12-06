@@ -125,8 +125,23 @@ public class RegistrarEquipos extends AppCompatActivity {
             notifyDataSetChanged();
         }
 
-        public void removeTeam(String teamName) {
-            if (this.gestorDB.eliminarEquipo(teamName)) {
+        public void removeTeam(String teamId) {
+            Cursor c = gestorDB.getJugadoresFromEquipo(teamId);
+            //Cursor to array list
+            ArrayList<String> ids_jugadores = new ArrayList<String>();
+            c.moveToFirst();
+            while(!c.isAfterLast()) {
+                ids_jugadores.add(c.getString(0)); //add the item
+                c.moveToNext();
+            }
+
+            for (String jugador:ids_jugadores) {
+                this.gestorDB.eliminarAsignacionJugador_Equipo(jugador);
+            }
+            //System.out.println("JUGADORES: " + ids_jugadores.toString());
+
+
+            if (this.gestorDB.eliminarEquipo(teamId)) {
                 updateTeams();
                 notifyDataSetChanged();
             } else {

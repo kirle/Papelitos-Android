@@ -54,7 +54,7 @@ public class GestionPapelitos extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 playSound();
-                Intent myIntent = new Intent(GestionPapelitos.this, RoundTimer.class);
+                Intent myIntent = new Intent(GestionPapelitos.this, RegistrarEquipos.class);
                 myIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 GestionPapelitos.this.startActivity(myIntent);
             }
