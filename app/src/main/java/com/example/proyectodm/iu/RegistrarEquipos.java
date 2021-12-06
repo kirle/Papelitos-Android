@@ -22,6 +22,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.proyectodm.R;
 import com.example.proyectodm.core.DBManager;
 
+import java.util.ArrayList;
+
 
 public class RegistrarEquipos extends AppCompatActivity {
 
@@ -106,6 +108,7 @@ public class RegistrarEquipos extends AppCompatActivity {
         private DBManager gestorDB;
         private LayoutInflater mLayoutInflater;
         Context context;
+        ArrayList<String> ids_equipos = new ArrayList<>();
 
         public CustomListAdapter (Context context, Cursor cursor) {
             super(context, cursor);
@@ -134,6 +137,9 @@ public class RegistrarEquipos extends AppCompatActivity {
         @Override
         public View newView (Context context, Cursor cursor, ViewGroup parent) {
             View v = mLayoutInflater.inflate(R.layout.team_row, parent, false);
+            String index = cursor.getString(0);
+            ids_equipos.add(index);
+
             return v;
         }
 

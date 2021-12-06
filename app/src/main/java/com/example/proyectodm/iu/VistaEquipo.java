@@ -22,6 +22,8 @@ import android.widget.TextView;
 import com.example.proyectodm.R;
 import com.example.proyectodm.core.DBManager;
 
+import java.util.ArrayList;
+
 public class VistaEquipo extends AppCompatActivity {
     private DBManager gestorDB;
     private CustomListAdapter myAdapter;
@@ -73,16 +75,24 @@ public class VistaEquipo extends AppCompatActivity {
         private DBManager gestorDB;
         private LayoutInflater mLayoutInflater;
         private Context context;
+        private ArrayList<String> ids_jugadores;
 
         public CustomListAdapter (Context context, Cursor cursor) {
             super(context, cursor);
             this.context = context;
             mLayoutInflater = LayoutInflater.from(context);
             this.gestorDB = DBManager.getInstance(context);
+            ids_jugadores = new ArrayList<>();
         }
 
         public void addTeam(String teamName){
             if(gestorDB.insertarEquipo(teamName)){
+                String equipo_id = gestorDB.getIdFromTeamName(teamName);
+
+                for (int i=0; i<ids_jugadores.size(); i++){
+                    gestorDB.asignarJugador_Equipo(ids_jugadores.get(i), equipo_id);
+                }
+
                 System.out.println("Equipo añadido");
                 updateTeams();
                 notifyDataSetChanged();
@@ -116,9 +126,13 @@ public class VistaEquipo extends AppCompatActivity {
                     if(clicked[0]){
                         clicked[0] = false;
                         imgClickable.setBackgroundResource(R.mipmap.clicable);
+                        if( !(ids_jugadores.contains(index)) ) ids_jugadores.remove(index);
+
+
                     }  else {
                         clicked[0] = true;
                         imgClickable.setBackgroundResource(R.mipmap.clickableclicked);
+                        ids_jugadores.add(index);
 
                     }
                 }

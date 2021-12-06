@@ -269,6 +269,27 @@ public class DBManager extends SQLiteOpenHelper {
         return this.getReadableDatabase().query( tabla_equipo,
                 new String[]{EQUIPO_id}, null, null, null, null, null );
     }
+    public String getIdFromTeamName(String team_name){
+        String id = "";
+        Cursor c = null;
+        db = this.getWritableDatabase();
+        try{
+            db.beginTransaction();
+            String query = "SELECT _id FROM equipo WHERE equipo_nombre = '"+team_name+"'";;
+            c = db.rawQuery(query,null);
+            c.moveToFirst();
+            id = c.getString(0);
+        } catch (SQLException e){
+            e.getMessage();
+        }finally {
+            if(c != null){
+                c.close();
+            }
+            db.endTransaction();
+        }
+        return id;
+    }
+
     public String getEquipo(int id){
         String text = "";
         boolean toRet = false;
