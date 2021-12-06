@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,7 +54,7 @@ public class GestionPapelitos extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 playSound();
-                Intent myIntent = new Intent(GestionPapelitos.this, RegistrarEquipos.class);
+                Intent myIntent = new Intent(GestionPapelitos.this, RoundTimer.class);
                 myIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 GestionPapelitos.this.startActivity(myIntent);
             }
