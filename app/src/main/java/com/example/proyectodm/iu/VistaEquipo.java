@@ -37,8 +37,7 @@ public class VistaEquipo extends AppCompatActivity {
 
         //  db query for list
         String[] projections = {gestorDB.JUGADOR_id, gestorDB.JUGADOR_nombre};
-        Cursor c = gestorDB.getWritableDatabase().query( gestorDB.tabla_jugador,
-                projections, null, null, null, null, null );
+        Cursor c = this.gestorDB.getJugadoresDisponibles();
         this.myAdapter = new CustomListAdapter(this, c);
         listView.setAdapter(myAdapter);
 

@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import org.json.JSONObject;
+
 public class DBManager extends SQLiteOpenHelper {
     public static final String db_name = "papelitos";
     public static final int db_version = 1;
@@ -41,7 +43,7 @@ public class DBManager extends SQLiteOpenHelper {
 
     private DBManager(Context context){
         super(context, db_name, null, db_version);
-        //context.deleteDatabase("papelitos");
+        context.deleteDatabase("papelitos");
 
     }
 
@@ -183,8 +185,7 @@ public class DBManager extends SQLiteOpenHelper {
         db = this.getWritableDatabase();
         try{
             db.beginTransaction();
-            String query = "SELECT nombre FROM jugador WHERE id_equipo IS NOT NULL";
-            c = db.rawQuery(query,null);
+            c = db.query(tabla_jugador, null, EQUIPO_id_fk + " = 'null'" , null, null, null,null);
         } catch (SQLException e){
             System.err.println(e.getMessage());
         }
@@ -541,7 +542,6 @@ public class DBManager extends SQLiteOpenHelper {
         try {
             db.beginTransaction();
             db.update(tabla_jugador, values, JUGADOR_id + "=?", new String[]{id_jugador});
-
             db.setTransactionSuccessful();
             toret = true;
         }catch(SQLException exc){
