@@ -478,16 +478,9 @@ public class DBManager extends SQLiteOpenHelper {
 
         try{
             db.beginTransaction();
-            cursor = db.query(tabla_jugador, null, JUGADOR_id + "=? AND " + EQUIPO_id_fk
-                    + "=?", new String[]{id_jugador, id_equipo}, null, null, null, null);
-            if(cursor.getCount() > 0){
-                db.update(tabla_jugador, values, JUGADOR_id + "=? AND " + EQUIPO_id_fk
-                        + "=?", new String[]{id_jugador, id_equipo});
-            }
-            else{
-                db.update(tabla_jugador, values, JUGADOR_id + "=?", new String[]{id_jugador});
+            db.update(tabla_jugador, values, JUGADOR_id + "=?", new String[]{id_jugador});
 
-            }
+
             db.setTransactionSuccessful();
             toret = true;
         }catch(SQLException exc){

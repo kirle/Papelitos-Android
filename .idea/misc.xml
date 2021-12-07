@@ -14,21 +14,30 @@
         <entry key="app/src/main/res/drawable/btn_background.xml" value="0.3859375" />
         <entry key="app/src/main/res/drawable/btn_main_background.xml" value="0.3486328125" />
         <entry key="app/src/main/res/drawable/layout_border.xml" value="0.3859375" />
+        <entry key="app/src/main/res/drawable/lyt_thick_border.xml" value="0.31196581196581197" />
         <entry key="app/src/main/res/drawable/paperfly_animation.xml" value="0.27890625" />
         <entry key="app/src/main/res/drawable/textview_border.xml" value="0.371875" />
         <entry key="app/src/main/res/layout/activity_equipos.xml" value="0.29483695652173914" />
-        <entry key="app/src/main/res/layout/activity_gestion_papelitos.xml" value="0.11437908496732026" />
+        <entry key="app/src/main/res/layout/activity_gestion_papelitos.xml" value="0.2987179487179487" />
         <entry key="app/src/main/res/layout/activity_help.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_instructions.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_options.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_registrar_equipos.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_registrar_jugadores.xml" value="0.2" />
-        <entry key="app/src/main/res/layout/activity_round_timer.xml" value="0.12" />
+        <entry key="app/src/main/res/layout/activity_round_management.xml" value="0.21" />
+        <entry key="app/src/main/res/layout/activity_round_timer.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_vista_equipo.xml" value="0.21422101449275363" />
+        <entry key="app/src/main/res/layout/dialog_layout_add_team.xml" value="0.2987179487179487" />
+        <entry key="app/src/main/res/layout/dialog_layout_delete_paper.xml" value="0.2987179487179487" />
+        <entry key="app/src/main/res/layout/dialog_layout_delete_player.xml" value="0.2987179487179487" />
         <entry key="app/src/main/res/layout/list_row.xml" value="0.25" />
         <entry key="app/src/main/res/layout/list_view_custom_layout.xml" value="0.3120471014492754" />
         <entry key="app/src/main/res/layout/paper_row.xml" value="0.18" />
         <entry key="app/src/main/res/layout/player_row.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/pruebaa.xml" value="0.2987179487179487" />
+        <entry key="app/src/main/res/layout/select_player_row.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/team_row.xml" value="0.33" />
       </map>
     </option>
   </component>

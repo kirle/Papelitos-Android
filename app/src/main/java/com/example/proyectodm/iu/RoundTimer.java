@@ -38,6 +38,7 @@ public class RoundTimer extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_round_timer);
 
+
         this.db = DBManager.getInstance(this.getApplicationContext());
 
         txt_timer = (TextView) findViewById(R.id.txt_timer);

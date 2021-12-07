@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ProyectoDM">
         <activity
+            android:name=".iu.RoundManagement"
+            android:exported="false" />
+        <activity
             android:name=".iu.VistaEquipo"
             android:exported="false" />
         <activity
