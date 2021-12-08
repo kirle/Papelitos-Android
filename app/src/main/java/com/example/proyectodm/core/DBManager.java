@@ -459,10 +459,58 @@ public class DBManager extends SQLiteOpenHelper {
     }
 
     public Cursor getPapelitos(){
-        return this.getWritableDatabase().query(tabla_papelito,
-                new String[]{PAPELITO_id},null,null,null, null,null);
+        return this.getWritableDatabase().query(tabla_papelito, new String[]{PAPELITO_id},
+                null,null,null, null,null);
     }
 
+    public Cursor getPuntuaciones(){
+        return this.getWritableDatabase().query(tabla_puntuacion, new String[]{EQUIPO_id_fk3},
+                null,null,null, null,null);
+    }
+
+    public String getPuntuacion(int id){
+        String text = "";
+        boolean toRet = false;
+        Cursor c = null;
+        db = this.getWritableDatabase();
+        try{
+            db.beginTransaction();
+            String query = "SELECT "+puntuacion+" FROM "+ tabla_puntuacion +" WHERE _id==" + id+ ";";
+            c = db.rawQuery(query,null);
+            c.moveToFirst();
+            text = c.getString(0);
+        } catch (SQLException e){
+            e.getMessage();
+        }finally {
+            if(c != null){
+                c.close();
+            }
+            db.endTransaction();
+        }
+        return text;
+    }
+
+    public String getNombreEquipo(int id){
+        String text = "";
+        boolean toRet = false;
+        Cursor c = null;
+        db = this.getWritableDatabase();
+        try{
+            db.beginTransaction();
+            String query = "SELECT "+EQUIPO_nombre+" FROM "+ tabla_equipo +" WHERE _id==" + id+ ";";
+            c = db.rawQuery(query,null);
+            c.moveToFirst();
+            text = c.getString(0);
+        } catch (SQLException e){
+            e.getMessage();
+        }finally {
+            if(c != null){
+                c.close();
+            }
+            db.endTransaction();
+        }
+        return text;
+    }
     // ****
     // -- ASIGNACIONES
     // ****
@@ -478,9 +526,16 @@ public class DBManager extends SQLiteOpenHelper {
 
         try{
             db.beginTransaction();
-            db.update(tabla_jugador, values, JUGADOR_id + "=?", new String[]{id_jugador});
+            cursor = db.query(tabla_jugador, null, JUGADOR_id + "=? AND " + EQUIPO_id_fk
+                    + "=?", new String[]{id_jugador, id_equipo}, null, null, null, null);
+            if(cursor.getCount() > 0){
+                db.update(tabla_jugador, values, JUGADOR_id + "=? AND " + EQUIPO_id_fk
+                        + "=?", new String[]{id_jugador, id_equipo});
+            }
+            else{
+                db.update(tabla_jugador, values, JUGADOR_id + "=?", new String[]{id_jugador});
 
-
+            }
             db.setTransactionSuccessful();
             toret = true;
         }catch(SQLException exc){
