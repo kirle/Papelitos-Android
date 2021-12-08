@@ -39,7 +39,7 @@ public class RoundTimer extends AppCompatActivity {
     private long mTimeLeftInMillis = START_TIME_IN_MILLIS;
     private ArrayList<String> ids_equipos;
     private DBManager gestorDB;
-
+    private  String leftTime;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,7 +74,7 @@ public class RoundTimer extends AppCompatActivity {
             }
         });
 
-        updateCountDownText();
+        //updateCountDownText();
 
         //Bucle de juego
 
@@ -86,7 +86,7 @@ public class RoundTimer extends AppCompatActivity {
         Cursor cursor = this.gestorDB.getPapelitos();
         ArrayList<String> ids_papelitos = new ArrayList<String>();
 
-        System.out.println("CURSOR:" + cursor.getCount());
+        System.out.println("Papelitos cursor numero::" + cursor.getCount());
         cursor.moveToFirst();
         while(!cursor.isAfterLast()) {
             ids_papelitos.add(cursor.getString(0)); //add the item
@@ -109,8 +109,8 @@ public class RoundTimer extends AppCompatActivity {
                 }
 
                 TextView txt_timer = (TextView) findViewById(R.id.txt_timer);
-                String timer = txt_timer.getText().toString();
-                while (Integer.valueOf(timer) > 0){
+                leftTime = txt_timer.getText().toString();
+                while (Integer.valueOf(leftTime) > 0){
 
 
 
@@ -132,6 +132,7 @@ public class RoundTimer extends AppCompatActivity {
                                 ids_papelitos.remove(current_id);
                                 palabraAcertada[0] =true;
                                 Log.i("ASIGNACION_PAPELITO", "Asignación correcta"); //* LogCat.
+                                leftTime = "0";
 
                             }
                         });
