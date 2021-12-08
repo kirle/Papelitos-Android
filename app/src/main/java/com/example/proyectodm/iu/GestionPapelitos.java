@@ -99,7 +99,14 @@ public class GestionPapelitos extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String text = editText.getText().toString();
-                myAdapter.add(text);
+                if(text.length() == 0){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(GestionPapelitos.this);
+                    builder.setMessage("¡Papelito no puede estar vacio!");
+                    builder.create().show();
+                } else{
+                    myAdapter.add(text);
+                }
+
             }
         });
         builder.setNegativeButton("Cancel", null);
@@ -142,7 +149,13 @@ public class GestionPapelitos extends AppCompatActivity {
             //When confirm
             public void onClick(DialogInterface dialog, int which) {
                 final String text = editText.getText().toString();
-                myAdapter.modify(pos,text);
+                if(text.length() == 0){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(GestionPapelitos.this);
+                    builder.setMessage("¡Nombre papelito no puede ser vacio!");
+                    builder.create().show();
+                } else{
+                    myAdapter.modify(pos,text);
+                }
             }
         });
         builder.setNegativeButton("Cancel", null);

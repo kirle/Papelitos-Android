@@ -112,10 +112,13 @@ public class RegistrarJugadores extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String text = editText.getText().toString();
-                myAdapter.add(text);
-                /*
-                TextView textView_name = (TextView) findViewById(R.id.lbl_playerName);
-                textView_name.setText(text); */
+                if(text.length() == 0){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(RegistrarJugadores.this);
+                    builder.setMessage("¡Nombre jugador no puede ser vacio!");
+                    builder.create().show();
+                } else{
+                    myAdapter.add(text);
+                }
             }
         });
         builder.setNegativeButton("Cancel", null);
@@ -162,7 +165,13 @@ public class RegistrarJugadores extends AppCompatActivity {
             //When confirm
             public void onClick(DialogInterface dialog, int which) {
                 final String text = editText.getText().toString();
-                myAdapter.modify(pos,text);
+                if(text.length() == 0){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(RegistrarJugadores.this);
+                    builder.setMessage("¡Nombre jugador no puede ser vacio!");
+                    builder.create().show();
+                } else{
+                    myAdapter.modify(pos,text);
+                }
             }
         });
         builder.setNegativeButton("Cancel", null);

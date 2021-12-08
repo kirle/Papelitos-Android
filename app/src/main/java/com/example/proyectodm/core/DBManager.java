@@ -43,7 +43,7 @@ public class DBManager extends SQLiteOpenHelper {
 
     private DBManager(Context context){
         super(context, db_name, null, db_version);
-        //context.deleteDatabase("papelitos");
+        context.deleteDatabase("papelitos");
 
     }
 

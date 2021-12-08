@@ -54,7 +54,7 @@ public class RegistrarEquipos extends AppCompatActivity {
             public void onClick(View v) {
                 playSound();
 
-                Intent myIntent = new Intent(RegistrarEquipos.this, RegistrarJugadores.class);
+                Intent myIntent = new Intent(RegistrarEquipos.this, GestionPapelitos.class);
                 myIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 RegistrarEquipos.this.startActivity(myIntent);
 
@@ -79,7 +79,13 @@ public class RegistrarEquipos extends AppCompatActivity {
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onAdd();
+                if(gestorDB.getJugadoresDisponibles().getCount() == 0){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(RegistrarEquipos.this);
+                    builder.setMessage("¡Ya no quedan jugadores sin asignar a un equipo!");
+                    builder.create().show();
+                } else{
+                    onAdd();
+                }
             }
         });
 

@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.proyectodm.R;
 import com.example.proyectodm.core.DBManager;
@@ -50,10 +51,19 @@ public class VistaEquipo extends AppCompatActivity {
             public void onClick (View v) {
                 //Add selected to the team and register team
                 EditText txt_nombreEquipo = (EditText) findViewById(R.id.txt_nombreEquipo);
-                myAdapter.addTeam(txt_nombreEquipo.getText().toString());
+                AlertDialog.Builder builder = new AlertDialog.Builder(VistaEquipo.this);
 
-                Intent intent = new Intent(VistaEquipo.this, RegistrarEquipos.class);
-                startActivity(intent);
+                if(myAdapter.ids_jugadores.size() <= 0){
+                    builder.setMessage("Tienes que seleccionar al menos un jugador");
+                    builder.create().show();
+                } else if(txt_nombreEquipo.length() <= 0){
+                    builder.setMessage("Nombre del equipo no es válido");
+                    builder.create().show();
+                }else {
+                    myAdapter.addTeam(txt_nombreEquipo.getText().toString());
+                    Intent intent = new Intent(VistaEquipo.this, RegistrarEquipos.class);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -86,7 +96,6 @@ public class VistaEquipo extends AppCompatActivity {
 
         public void addTeam(String teamName){
             if(gestorDB.insertarEquipo(teamName)){
-
                 String equipo_id = gestorDB.getIdFromTeamName(teamName);
 
                 for (int i=0; i<ids_jugadores.size(); i++){
