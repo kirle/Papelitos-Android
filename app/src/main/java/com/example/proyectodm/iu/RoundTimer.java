@@ -1,8 +1,10 @@
 package com.example.proyectodm.iu;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ActivityOptions;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.media.MediaPlayer;
@@ -12,12 +14,15 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
 import com.example.proyectodm.R;
 import com.example.proyectodm.core.DBManager;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,7 +31,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class RoundTimer extends AppCompatActivity {
 
-    private static final long START_TIME_IN_MILLIS = 60000;
+    private static final long START_TIME_IN_MILLIS = 30000;
 
     private TextView txt_timer;
     private Button mButtonStartPause;
@@ -35,15 +40,28 @@ public class RoundTimer extends AppCompatActivity {
     private CountDownTimer timer;
 
     private Boolean mTimerRunning = false;
+    private Boolean palabraAcertada;
+
+    private LinearLayout layout_current_word;
+    private TextView txt_current_word;
+
 
     private long mTimeLeftInMillis = START_TIME_IN_MILLIS;
     private ArrayList<String> ids_equipos;
     private DBManager gestorDB;
     private  String leftTime;
+    private boolean empezar;
+    private int numEquipos;
+    private int turno;
+    ArrayList<String> array_nombres;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_round_timer);
+
+        numEquipos = 0;
+        turno = 1;
 
         this.gestorDB = DBManager.getInstance(this.getApplicationContext());
         txt_timer = (TextView) findViewById(R.id.txt_timer);
@@ -59,13 +77,30 @@ public class RoundTimer extends AppCompatActivity {
         }
         Collections.sort(ids_equipos); // random order for teams
 
+        array_nombres = gestorDB.getNombreEquipos();
+        numEquipos = array_nombres.size();
+
+        pulsaParaEmpezar();
+
         // ** Listeners
+        empezar = false;
+
+        TextView txt_nombreEquipo = (TextView) findViewById(R.id.txt_equipoActual);
+        txt_nombreEquipo.setText(array_nombres.get(turno));
+
+        // ** BOTON EMPEZAR
+        layout_current_word = (LinearLayout) findViewById(R.id.lyt_words_container);
+        layout_current_word.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick (View v) {
+
+            }
+        });
 
         ImageButton btn_back = (ImageButton) findViewById(R.id.btn_menu);
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                playSound();
                 Intent myIntent2 = new Intent(RoundTimer.this, Instructions.class);
                 ActivityOptions.makeSceneTransitionAnimation(RoundTimer.this).toBundle();
 
@@ -74,79 +109,105 @@ public class RoundTimer extends AppCompatActivity {
             }
         });
 
-        //updateCountDownText();
-
-        //Bucle de juego
-
-
-        boolean seguir = true;
-        TextView txt_nombreEquipo = (TextView) findViewById(R.id.txt_equipoActual);
-
-
-        Cursor cursor = this.gestorDB.getPapelitos();
-        ArrayList<String> ids_papelitos = new ArrayList<String>();
-
-        System.out.println("Papelitos cursor numero::" + cursor.getCount());
-        cursor.moveToFirst();
-        while(!cursor.isAfterLast()) {
-            ids_papelitos.add(cursor.getString(0)); //add the item
-            cursor.moveToNext();
-        }
-
-
-        while(ids_papelitos.size() > 0){
-
-            for (String equipo_id : ids_equipos){
-                // break if palabras==null
-                txt_nombreEquipo.setText(this.gestorDB.getNombreEquipo(equipo_id));
-
-
-                Cursor cursor_papelitos = this.gestorDB.getPapelitosDisponibles();
-                cursor_papelitos.moveToFirst();
-                while(!cursor_papelitos.isAfterLast()) {
-                    ids_papelitos.add(cursor_papelitos.getString(0)); //add the item
-                    cursor_papelitos.moveToNext();
-                }
-
-                TextView txt_timer = (TextView) findViewById(R.id.txt_timer);
-                leftTime = txt_timer.getText().toString();
-                while (Integer.valueOf(leftTime) > 0){
-
-
-
-                    int random = ThreadLocalRandom.current().nextInt(0, ids_papelitos.size() + 1);
-                    String current_id = ids_papelitos.get(random);
-
-                    String papelito_text = this.gestorDB.getPapelito(Integer.valueOf(current_id));
-                    TextView current_word = (TextView) findViewById(R.id.current_word);
-                    current_word.setText(papelito_text);
-
-                    final boolean[] palabraAcertada = {false};
-                    ImageButton btn_ok = (ImageButton) findViewById(R.id.btn_go);
-
-                    while(!palabraAcertada[0]){
-                        btn_ok.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick (View v) {
-                                gestorDB.asignarPapelito_Equipo(current_id, equipo_id);
-                                ids_papelitos.remove(current_id);
-                                palabraAcertada[0] =true;
-                                Log.i("ASIGNACION_PAPELITO", "Asignación correcta"); //* LogCat.
-                                leftTime = "0";
-
-                            }
-                        });
-                    }
-
-
-                }
+        ImageButton btn_ok = (ImageButton) findViewById(R.id.btn_go);
+        btn_ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick (View v) {
+                if(Integer.valueOf(txt_timer.getText().toString()) > 0)
+                actualizarPalabra();
+                else
+                    Toast.makeText(RoundTimer.this, "SE ACABÓ EL TIEMPO", Toast.LENGTH_SHORT).show();
 
             }
+        });
 
-        }
+        // ** BTN NEXT EQUIPO
+        Button btn_nextEquipo = (Button) findViewById(R.id.btn_nextEquipo);
+        btn_nextEquipo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick (View v) {
+                checkTimer();
+            }
+        });
+
+
+        updateCountDownText();
+
+
 
 
     }
+
+    public void pulsaParaEmpezar(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("PULSA PARA EMPEZAR");
+        builder.setPositiveButton("¡EMPEZAR!", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick (DialogInterface dialog, int which) {
+                empezar = true;
+
+                startTimer();
+                updateCountDownText();
+                actualizarPalabra();
+
+            }
+        });
+        builder.create().show();
+    }
+
+    public void checkTimer(){
+        TextView txt_nombreEquipo = (TextView) findViewById(R.id.txt_equipoActual);
+        txt_nombreEquipo.setText(array_nombres.get(turno));
+
+        TextView txt_timer = (TextView) findViewById(R.id.txt_timer);
+        leftTime = txt_timer.getText().toString();
+
+        if (Integer.valueOf(leftTime) == 0){
+            if(turno == numEquipos){
+                Toast.makeText(RoundTimer.this, "FIN PARTIDA", Toast.LENGTH_SHORT);
+                sendMessage();
+            }
+            turno+=1;
+            txt_nombreEquipo.setText(array_nombres.get(turno));
+            actualizarPalabra();
+            resetTimer();
+            pulsaParaEmpezar();
+
+        }
+
+    }
+
+    public void sendMessage(){
+
+    }
+
+    public void actualizarPalabra(){
+        ArrayList<String> ids_papelitos = new ArrayList<>();
+
+        Cursor cursor_papelitos = this.gestorDB.getPapelitosDisponibles();
+
+        cursor_papelitos.moveToFirst();
+        while(!cursor_papelitos.isAfterLast()) {
+            ids_papelitos.add(cursor_papelitos.getString(0)); //add the item
+            cursor_papelitos.moveToNext();
+
+        }
+        int random = ThreadLocalRandom.current().nextInt(0, ids_papelitos.size());
+        String current_id = ids_papelitos.get(random);
+
+        String papelito_text = this.gestorDB.getPapelito(Integer.valueOf(current_id));
+        txt_current_word = (TextView) findViewById(R.id.current_word);
+        txt_current_word.setText(papelito_text);
+
+
+    }
+
+
+    public void recorrerEquipos(){
+
+    }
+
+
     public void playSound(){
         MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.changesound);
         mediaPlayer.start();
@@ -163,28 +224,28 @@ public class RoundTimer extends AppCompatActivity {
             @Override
             public void onFinish() {
                 mTimerRunning = false;
-                mButtonStartPause.setText("Start");
-                mButtonStartPause.setVisibility(View.INVISIBLE);
-                mButtonReset.setVisibility(View.VISIBLE);
+                //mButtonStartPause.setText("Start");
+                //mButtonStartPause.setVisibility(View.INVISIBLE);
+                //mButtonReset.setVisibility(View.VISIBLE);
             }
         }.start();
 
         mTimerRunning = true;
-        mButtonStartPause.setText("pause");
-        mButtonReset.setVisibility(View.INVISIBLE);
+        //mButtonStartPause.setText("pause");
+        //mButtonReset.setVisibility(View.INVISIBLE);
     }
 
     private void pauseTimer(){
         timer.cancel();
         mTimerRunning = false;
-        mButtonStartPause.setText("Start");
-        mButtonReset.setVisibility(View.VISIBLE);
+        //mButtonStartPause.setText("Start");
+        //mButtonReset.setVisibility(View.VISIBLE);
     }
 
     private void resetTimer(){
         mTimeLeftInMillis = START_TIME_IN_MILLIS;
         updateCountDownText();
-        mButtonReset.setVisibility(View.INVISIBLE);
+        //mButtonReset.setVisibility(View.INVISIBLE);
     }
 
     private int calculatePoints(){
@@ -196,10 +257,10 @@ public class RoundTimer extends AppCompatActivity {
     }
 
     private void updateCountDownText(){
-        int minutes = (int) mTimeLeftInMillis / 1000 / 60;
+
         int seconds = (int) mTimeLeftInMillis / 1000 % 60;
 
-        String timeLeftFormatted = String.format(Locale.getDefault(),"%02d:%02d", minutes, seconds);
+        String timeLeftFormatted = String.format(Locale.getDefault(),"%02d",  seconds);
 
         txt_timer.setText(timeLeftFormatted);
     }

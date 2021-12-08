@@ -10,6 +10,9 @@ import android.util.Log;
 
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class DBManager extends SQLiteOpenHelper {
     public static final String db_name = "papelitos";
     public static final int db_version = 1;
@@ -43,7 +46,7 @@ public class DBManager extends SQLiteOpenHelper {
 
     private DBManager(Context context){
         super(context, db_name, null, db_version);
-        context.deleteDatabase("papelitos");
+        //context.deleteDatabase("papelitos");
 
     }
 
@@ -320,6 +323,34 @@ public class DBManager extends SQLiteOpenHelper {
         return text;
     }
 
+    public ArrayList<String> getNombreEquipos(){
+        Cursor c = null;
+        ArrayList<String> array_nombres = new ArrayList<String>();
+
+        db = this.getWritableDatabase();
+        try{
+            db.beginTransaction();
+            c = db.query(tabla_equipo, new String[]{EQUIPO_nombre},
+                    null,null,null,null,null);
+
+            c.moveToFirst();
+            while(!c.isAfterLast()) {
+                array_nombres.add(c.getString(0)); //add the item
+                c.moveToNext();
+            }
+        } catch (SQLException e){
+            e.getMessage();
+        }finally {
+
+            if(c != null){
+                c.close();
+            }
+
+            db.endTransaction();
+        }
+        return array_nombres;
+    }
+
     public String getEquipo(int id){
         String text = "";
         boolean toRet = false;
@@ -400,7 +431,7 @@ public class DBManager extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         values.put(PAPELITO_texto, texto);
-
+        values.put(EQUIPO_id_fk3, "null");
         try{
             db.beginTransaction();
             db.insert(tabla_papelito,null, values); //Puede haber repetidos
@@ -487,10 +518,10 @@ public class DBManager extends SQLiteOpenHelper {
 
     public Cursor getPapelitosDisponibles(){
         Cursor c = null;
-        db = this.getWritableDatabase();
+        db = this.getReadableDatabase();
         try{
             db.beginTransaction();
-            c = db.query(tabla_papelito, null, EQUIPO_id_fk2 + " = 'null'" , null, null, null,null);
+            c = db.query(tabla_papelito, null, EQUIPO_id_fk3 + " = 'null'" , null, null, null,null);
         } catch (SQLException e){
             System.err.println(e.getMessage());
         }

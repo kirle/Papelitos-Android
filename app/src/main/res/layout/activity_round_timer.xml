@@ -106,7 +106,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_weight="0.25"
+                    android:layout_weight="0.15"
                     android:fontFamily="@font/fatchicks"
                     android:gravity="center"
                     android:hint="puntos"
@@ -154,6 +154,8 @@
             android:layout_weight="0.35"
             android:background="@drawable/lyt_thick_border"
             android:orientation="vertical"
+            android:clickable="true"
+
 
             >
 
@@ -174,12 +176,14 @@
         <!-- FOOTER -->
 
         <LinearLayout
+            android:id="@+id/lyt_words"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.20"
+            android:layout_weight="0.15"
             android:gravity="bottom"
             android:orientation="horizontal"
-            android:weightSum="1">
+            android:weightSum="1"
+            >
 
             <ImageButton
                 android:id="@+id/btn_back"
@@ -198,6 +202,25 @@
                 android:layout_weight="0.5"
                 android:background="@mipmap/btnok" />
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lyt_sig_equipo"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.05"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_nextEquipo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="SIGUIENTE EQUIPO"
+                android:fontFamily="@font/fatchicks"
+                android:textColor="@color/white"
+                android:textSize="24dp"
+                android:background="@drawable/btn_main_background"
+                />
         </LinearLayout>
 
     </LinearLayout>
