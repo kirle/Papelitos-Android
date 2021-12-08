@@ -108,7 +108,7 @@ public class MostrarPuntuaciones extends AppCompatActivity {
             txtView_puntuacion.setText(puntuacion);
 
             TextView txtView_nombreEquipo = (TextView) v.findViewById(R.id.lbl_teamName);
-            String nombre = gestorDB.getNombreEquipo(Integer.valueOf(index));
+            String nombre = gestorDB.getNombreEquipo(index);
             txtView_nombreEquipo.setText(nombre);
         }
 

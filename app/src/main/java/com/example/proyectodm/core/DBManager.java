@@ -43,7 +43,7 @@ public class DBManager extends SQLiteOpenHelper {
 
     private DBManager(Context context){
         super(context, db_name, null, db_version);
-        context.deleteDatabase("papelitos");
+        //context.deleteDatabase("papelitos");
 
     }
 
@@ -298,6 +298,28 @@ public class DBManager extends SQLiteOpenHelper {
         return id;
     }
 
+    public String getNombreEquipo(String id){
+        String text = "";
+        boolean toRet = false;
+        Cursor c = null;
+        db = this.getWritableDatabase();
+        try{
+            db.beginTransaction();
+            String query = "SELECT "+EQUIPO_nombre+" FROM "+ tabla_equipo +" WHERE _id==" + id+ ";";
+            c = db.rawQuery(query,null);
+            c.moveToFirst();
+            text = c.getString(0);
+        } catch (SQLException e){
+            e.getMessage();
+        }finally {
+            if(c != null){
+                c.close();
+            }
+            db.endTransaction();
+        }
+        return text;
+    }
+
     public String getEquipo(int id){
         String text = "";
         boolean toRet = false;
@@ -463,54 +485,22 @@ public class DBManager extends SQLiteOpenHelper {
                 null,null,null, null,null);
     }
 
-    public Cursor getPuntuaciones(){
-        return this.getWritableDatabase().query(tabla_puntuacion, new String[]{EQUIPO_id_fk3},
-                null,null,null, null,null);
-    }
-
-    public String getPuntuacion(int id){
-        String text = "";
-        boolean toRet = false;
+    public Cursor getPapelitosDisponibles(){
         Cursor c = null;
         db = this.getWritableDatabase();
         try{
             db.beginTransaction();
-            String query = "SELECT "+puntuacion+" FROM "+ tabla_puntuacion +" WHERE _id==" + id+ ";";
-            c = db.rawQuery(query,null);
-            c.moveToFirst();
-            text = c.getString(0);
+            c = db.query(tabla_papelito, null, EQUIPO_id_fk2 + " = 'null'" , null, null, null,null);
         } catch (SQLException e){
-            e.getMessage();
-        }finally {
-            if(c != null){
-                c.close();
-            }
+            System.err.println(e.getMessage());
+        }
+        finally {
             db.endTransaction();
         }
-        return text;
+        return c;
     }
 
-    public String getNombreEquipo(int id){
-        String text = "";
-        boolean toRet = false;
-        Cursor c = null;
-        db = this.getWritableDatabase();
-        try{
-            db.beginTransaction();
-            String query = "SELECT "+EQUIPO_nombre+" FROM "+ tabla_equipo +" WHERE _id==" + id+ ";";
-            c = db.rawQuery(query,null);
-            c.moveToFirst();
-            text = c.getString(0);
-        } catch (SQLException e){
-            e.getMessage();
-        }finally {
-            if(c != null){
-                c.close();
-            }
-            db.endTransaction();
-        }
-        return text;
-    }
+
     // ****
     // -- ASIGNACIONES
     // ****
@@ -618,6 +608,32 @@ public class DBManager extends SQLiteOpenHelper {
     // -- OPERACIONES PUNTUACIONES
     // ****
 
+    public Cursor getPuntuaciones(){
+        return this.getWritableDatabase().query(tabla_puntuacion, new String[]{EQUIPO_id_fk3},
+                null,null,null, null,null);
+    }
+
+    public String getPuntuacion(int id){
+        String text = "";
+        boolean toRet = false;
+        Cursor c = null;
+        db = this.getWritableDatabase();
+        try{
+            db.beginTransaction();
+            String query = "SELECT "+puntuacion+" FROM "+ tabla_puntuacion +" WHERE _id==" + id+ ";";
+            c = db.rawQuery(query,null);
+            c.moveToFirst();
+            text = c.getString(0);
+        } catch (SQLException e){
+            e.getMessage();
+        }finally {
+            if(c != null){
+                c.close();
+            }
+            db.endTransaction();
+        }
+        return text;
+    }
 
     public boolean modificarPuntuacion(String id_equipo, int puntos){/*Actualizar la puntuacion*/
         boolean toret = false;
