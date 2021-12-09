@@ -60,29 +60,32 @@
             android:layout_height="match_parent"
             android:orientation="horizontal"
             android:layout_weight="0.4"
-            android:weightSum="1">
+            android:weightSum="3"
+           >
 
-            <ImageButton
-                android:id="@+id/btn_back"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="0.5"
-                android:background="@mipmap/paperleft"
+            <View
+                android:id="@+id/view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5" />
 
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_backtomenu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="VOLVER AL MENÚ"
+                android:fontFamily="@font/delvue"
+                android:gravity="center"
+                android:layout_weight="2"
+                android:layout_gravity="center"
 
                 />
 
-
-            <ImageButton
-                android:id="@+id/btn_go"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="0.5"
-
-
-                android:background="@mipmap/paperright"
-                />
-
+            <View
+                android:id="@+id/view2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5" />
         </LinearLayout>
     </LinearLayout>
 

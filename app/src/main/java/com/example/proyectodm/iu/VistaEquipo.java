@@ -95,7 +95,7 @@ public class VistaEquipo extends AppCompatActivity {
         }
 
         public void addTeam(String teamName){
-            if(gestorDB.insertarEquipo(teamName)){
+            if(gestorDB.insertarEquipo(teamName) && gestorDB.insertarPuntuacion(gestorDB.getIdFromTeamName(teamName))){
                 String equipo_id = gestorDB.getIdFromTeamName(teamName);
 
                 for (int i=0; i<ids_jugadores.size(); i++){

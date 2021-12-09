@@ -31,7 +31,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class RoundTimer extends AppCompatActivity {
 
-    private static final long START_TIME_IN_MILLIS = 30000;
+    private static final long START_TIME_IN_MILLIS = 3000;
 
     private TextView txt_timer;
     private Button mButtonStartPause;
@@ -53,6 +53,7 @@ public class RoundTimer extends AppCompatActivity {
     private boolean empezar;
     private int numEquipos;
     private int turno;
+    private TextView lbl_puntuacion;
     ArrayList<String> array_nombres;
 
     @Override
@@ -61,7 +62,7 @@ public class RoundTimer extends AppCompatActivity {
         setContentView(R.layout.activity_round_timer);
 
         numEquipos = 0;
-        turno = 1;
+        turno = 0;
 
         this.gestorDB = DBManager.getInstance(this.getApplicationContext());
         txt_timer = (TextView) findViewById(R.id.txt_timer);
@@ -88,6 +89,10 @@ public class RoundTimer extends AppCompatActivity {
         TextView txt_nombreEquipo = (TextView) findViewById(R.id.txt_equipoActual);
         txt_nombreEquipo.setText(array_nombres.get(turno));
 
+        lbl_puntuacion = (TextView) findViewById(R.id.lbl_puntuacion);
+        lbl_puntuacion.setText("0");
+
+
         // ** BOTON EMPEZAR
         layout_current_word = (LinearLayout) findViewById(R.id.lyt_words_container);
         layout_current_word.setOnClickListener(new View.OnClickListener() {
@@ -109,14 +114,20 @@ public class RoundTimer extends AppCompatActivity {
             }
         });
 
+        // * BUTTON PALABRA ACERTADA
         ImageButton btn_ok = (ImageButton) findViewById(R.id.btn_go);
         btn_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick (View v) {
-                if(Integer.valueOf(txt_timer.getText().toString()) > 0)
-                actualizarPalabra();
-                else
+                if(Integer.valueOf(txt_timer.getText().toString()) > 0){
+                    actualizarPalabra();
+                    gestorDB.modificarPuntuacion(ids_equipos.get(turno), 1);
+                    lbl_puntuacion.setText(gestorDB.getPuntuacion(Integer.valueOf(ids_equipos.get(turno))));
+
+                } else {
                     Toast.makeText(RoundTimer.this, "SE ACABÓ EL TIEMPO", Toast.LENGTH_SHORT).show();
+
+                }
 
             }
         });
@@ -137,10 +148,10 @@ public class RoundTimer extends AppCompatActivity {
 
 
     }
-
     public void pulsaParaEmpezar(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("PULSA PARA EMPEZAR");
+        builder.setCancelable(false);
         builder.setPositiveButton("¡EMPEZAR!", new DialogInterface.OnClickListener() {
             @Override
             public void onClick (DialogInterface dialog, int which) {
@@ -163,22 +174,24 @@ public class RoundTimer extends AppCompatActivity {
         leftTime = txt_timer.getText().toString();
 
         if (Integer.valueOf(leftTime) == 0){
-            if(turno == numEquipos){
+            if(turno == numEquipos - 1){
                 Toast.makeText(RoundTimer.this, "FIN PARTIDA", Toast.LENGTH_SHORT);
                 sendMessage();
+            } else {
+                turno += 1;
+                txt_nombreEquipo.setText(array_nombres.get(turno));
+                lbl_puntuacion.setText("0");
+                actualizarPalabra();
+                resetTimer();
+                pulsaParaEmpezar();
             }
-            turno+=1;
-            txt_nombreEquipo.setText(array_nombres.get(turno));
-            actualizarPalabra();
-            resetTimer();
-            pulsaParaEmpezar();
-
         }
 
     }
 
     public void sendMessage(){
-
+        Intent intent = new Intent(RoundTimer.this, MostrarPuntuaciones.class);
+        startActivity(intent);
     }
 
     public void actualizarPalabra(){
@@ -200,17 +213,6 @@ public class RoundTimer extends AppCompatActivity {
         txt_current_word.setText(papelito_text);
 
 
-    }
-
-
-    public void recorrerEquipos(){
-
-    }
-
-
-    public void playSound(){
-        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.changesound);
-        mediaPlayer.start();
     }
 
     private void startTimer(){

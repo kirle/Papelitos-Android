@@ -46,7 +46,7 @@ public class DBManager extends SQLiteOpenHelper {
 
     private DBManager(Context context){
         super(context, db_name, null, db_version);
-        //context.deleteDatabase("papelitos");
+        context.deleteDatabase("papelitos");
 
     }
 
@@ -185,10 +185,14 @@ public class DBManager extends SQLiteOpenHelper {
 
     public Cursor getJugadoresDisponibles(){
         Cursor c = null;
+        Cursor aux = null;
         db = this.getWritableDatabase();
         try{
             db.beginTransaction();
-            c = db.query(tabla_jugador, null, EQUIPO_id_fk + " = 'null'" , null, null, null,null);
+            aux = db.query(tabla_jugador,null,null,null,null,null,null);
+            if(aux.getCount() > 0) {
+                c = db.query(tabla_jugador, null, EQUIPO_id_fk + " = 'null'", null, null, null, null);
+            }
         } catch (SQLException e){
             System.err.println(e.getMessage());
         }
@@ -305,13 +309,18 @@ public class DBManager extends SQLiteOpenHelper {
         String text = "";
         boolean toRet = false;
         Cursor c = null;
+        Cursor aux = null;
         db = this.getWritableDatabase();
         try{
             db.beginTransaction();
-            String query = "SELECT "+EQUIPO_nombre+" FROM "+ tabla_equipo +" WHERE _id==" + id+ ";";
-            c = db.rawQuery(query,null);
-            c.moveToFirst();
-            text = c.getString(0);
+            aux = db.query(tabla_equipo,null,null,null,null,null,null);
+            if(aux.getCount() > 0){
+                String query = "SELECT "+EQUIPO_nombre+" FROM "+ tabla_equipo +" WHERE _id==" + id+ ";";
+                c = db.rawQuery(query,null);
+                c.moveToFirst();
+                text = c.getString(0);
+            }
+
         } catch (SQLException e){
             e.getMessage();
         }finally {
@@ -666,23 +675,48 @@ public class DBManager extends SQLiteOpenHelper {
         return text;
     }
 
+    public boolean insertarPuntuacion(String id){
+        boolean toret=false;
+        ContentValues values = new ContentValues();
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        values.put(EQUIPO_id_fk2, id);
+
+        try{
+            db.beginTransaction();
+            db.insert(tabla_puntuacion,null, values); //Puede haber repetidos
+            db.setTransactionSuccessful();
+            toret = true;
+        }catch (SQLException exc){
+            Log.e("DBM.insertarPapelito", exc.getMessage());
+        }
+        finally {
+            db.endTransaction();
+        }
+        return toret;
+    }
+
+
     public boolean modificarPuntuacion(String id_equipo, int puntos){/*Actualizar la puntuacion*/
         boolean toret = false;
         Cursor cursor = null;
-        SQLiteDatabase db = this.getWritableDatabase();
+        db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        values.put(EQUIPO_id_fk2, id_equipo);
         values.put(puntuacion, puntos);
+        values.put(EQUIPO_id_fk2, id_equipo);
 
         try{
             db.beginTransaction();
             cursor = db.query(tabla_puntuacion, new String[]{puntuacion} , EQUIPO_id_fk2 + "=?",
                     new String[]{id_equipo}, null, null, null, null);
-            int aux = cursor.getColumnIndex(puntuacion);
+
+            cursor.moveToFirst();
+            int aux = cursor.getColumnIndex("punt");
             int punt_Act = cursor.getInt(aux);
             int nueva_puntuacion = punt_Act + puntos;
-            db.execSQL("UPDATE tabla_puntuacion " +
+            System.out.println("!!!NUEVA PUNTUACION: "  + nueva_puntuacion);
+            db.execSQL("UPDATE puntuacion " +
                             "SET " +puntuacion+ "=?"+
                             "WHERE "+EQUIPO_id_fk2+"=?",
                     new String[]{String.valueOf(nueva_puntuacion), id_equipo});

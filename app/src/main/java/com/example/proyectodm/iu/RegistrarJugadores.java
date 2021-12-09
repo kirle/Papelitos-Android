@@ -52,16 +52,26 @@ public class RegistrarJugadores extends AppCompatActivity {
             }
         });
 
+        // * BUTTON NEXT ACTIVITY
         btngoplayers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                playSound();
-                Intent myIntent = new Intent(RegistrarJugadores.this, GestionPapelitos.class);
-                myIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                RegistrarJugadores.this.startActivity(myIntent);
+                if(gestorDB.getJugadores().getCount() != 0){
+                    playSound();
+                    Intent myIntent = new Intent(RegistrarJugadores.this, GestionPapelitos.class);
+                    myIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    RegistrarJugadores.this.startActivity(myIntent);
+                } else{
+                    AlertDialog.Builder builder = new AlertDialog.Builder(RegistrarJugadores.this);
+                    builder.setMessage("¡Debes añadir al menos un jugador!");
+                    builder.create().show();
+                }
+
+
             }
         });
 
+        // * BUTTON MAIN MENU
         btnbackplayers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,6 +79,7 @@ public class RegistrarJugadores extends AppCompatActivity {
                 Intent myIntent2 = new Intent(RegistrarJugadores.this, MainActivity.class);
                 myIntent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 RegistrarJugadores.this.startActivity(myIntent2);
+
             }
         });
 

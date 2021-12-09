@@ -66,11 +66,17 @@ public class RegistrarEquipos extends AppCompatActivity {
         btn_go.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                playSound();
-                Intent myIntent2 = new Intent(RegistrarEquipos.this, Instructions.class);
-                myIntent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                if(gestorDB.getEquipos().getCount() != 0){
+                    playSound();
+                    Intent myIntent2 = new Intent(RegistrarEquipos.this, Instructions.class);
+                    myIntent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-                RegistrarEquipos.this.startActivity(myIntent2);
+                    RegistrarEquipos.this.startActivity(myIntent2);
+                } else{
+                    AlertDialog.Builder builder = new AlertDialog.Builder(RegistrarEquipos.this);
+                    builder.setMessage("¡Debes añadir al menos un equipo!");
+                    builder.create().show();
+                }
             }
         });
 

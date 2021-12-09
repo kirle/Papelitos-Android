@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
+import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -20,45 +21,42 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.proyectodm.R;
 import com.example.proyectodm.core.DBManager;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 public class MostrarPuntuaciones extends AppCompatActivity {
     private DBManager gestorDB;
     private MyAdapter myAdapter;
+    public int pos;
+    private TextView lbl_posicion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_mostrar_puntuaciones);
+
+        pos = 0;
 
         this.gestorDB = DBManager.getInstance(this.getApplicationContext());
 
-        ImageButton btngo = (ImageButton) findViewById(R.id.btn_go);
-        ImageButton btnback = (ImageButton) findViewById(R.id.btn_back);
-
-        btngo.setOnClickListener(new View.OnClickListener() {
+        Button btn_mainmenu = (Button) findViewById(R.id.btn_backtomenu);
+        btn_mainmenu.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                Intent myIntent = new Intent(MostrarPuntuaciones.this, MainActivity.class);
-                myIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                MostrarPuntuaciones.this.startActivity(myIntent);
+            public void onClick (View v) {
+                Intent intent = new Intent(MostrarPuntuaciones.this, MainActivity.class);
+                startActivity(intent);
             }
         });
 
-        btnback.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent myIntent2 = new Intent(MostrarPuntuaciones.this, RoundTimer.class);
-                myIntent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                MostrarPuntuaciones.this.startActivity(myIntent2);
-            }
-        });
 
         //List Adapter
-        String[] projections = {gestorDB.EQUIPO_id_fk3, gestorDB.puntuacion};
+
+
+        String[] projections = {gestorDB.EQUIPO_id_fk2, gestorDB.puntuacion};
+
         Cursor c = gestorDB.getWritableDatabase().query(gestorDB.tabla_puntuacion, projections, null,
-                null,null,null,null);
+                null,null,null,gestorDB.puntuacion + " DESC");
         ListView listView = (ListView) findViewById(R.id.pointsList);
         this.myAdapter = new MyAdapter(this,c);
 
@@ -78,14 +76,12 @@ public class MostrarPuntuaciones extends AppCompatActivity {
 
     class MyAdapter extends CursorAdapter{
         private LayoutInflater mLayoutInflater;
-
-        ArrayList<String> data;
         Context context;
 
         public MyAdapter(Context context, Cursor c){
             super(context, c);
             this.context = context;
-            this.data = new ArrayList<>();
+            mLayoutInflater = LayoutInflater.from(context);
         }
 
         @Override
@@ -95,7 +91,7 @@ public class MostrarPuntuaciones extends AppCompatActivity {
 
         @Override
         public void bindView(View v, Context context, Cursor cursor) {
-
+            pos +=1;
             //Index of player
             String index = cursor.getString(0);
 
@@ -106,6 +102,10 @@ public class MostrarPuntuaciones extends AppCompatActivity {
             String puntuacion = gestorDB.getPuntuacion(Integer.valueOf(index));
 
             txtView_puntuacion.setText(puntuacion);
+
+            String postxt = String.valueOf(pos);
+            lbl_posicion = (TextView) v.findViewById(R.id.lbl_posicion);
+            lbl_posicion.setText(postxt);
 
             TextView txtView_nombreEquipo = (TextView) v.findViewById(R.id.lbl_teamName);
             String nombre = gestorDB.getNombreEquipo(index);

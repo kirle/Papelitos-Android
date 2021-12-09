@@ -22,6 +22,7 @@
         <entry key="app/src/main/res/layout/activity_help.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_instructions.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_mostrar_puntuaciones.xml" value="0.2918803418803419" />
         <entry key="app/src/main/res/layout/activity_options.xml" value="0.18" />
         <entry key="app/src/main/res/layout/activity_registrar_equipos.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_registrar_jugadores.xml" value="0.2" />
@@ -35,6 +36,7 @@
         <entry key="app/src/main/res/layout/list_view_custom_layout.xml" value="0.3120471014492754" />
         <entry key="app/src/main/res/layout/paper_row.xml" value="0.18" />
         <entry key="app/src/main/res/layout/player_row.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/points_row.xml" value="0.33" />
         <entry key="app/src/main/res/layout/pruebaa.xml" value="0.2987179487179487" />
         <entry key="app/src/main/res/layout/select_player_row.xml" value="0.25" />
         <entry key="app/src/main/res/layout/team_row.xml" value="0.33" />
