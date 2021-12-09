@@ -41,7 +41,7 @@
 
                 android:layout_gravity="center"
                 android:fontFamily="sans-serif-condensed-light"
-                android:paddingLeft="180sp"
+                android:paddingLeft="130sp"
                 android:text="Jugar"
 
 
@@ -69,11 +69,11 @@
 
                 android:layout_gravity="center"
                 android:fontFamily="sans-serif-condensed-light"
-                android:paddingLeft="150sp"
+                android:paddingLeft="120sp"
                 android:text="Opciones"
 
 
-                android:textSize="50sp" />
+                android:textSize="40sp" />
 
 
         </LinearLayout>
@@ -97,11 +97,11 @@
 
                 android:layout_gravity="center"
                 android:fontFamily="sans-serif-condensed-light"
-                android:paddingLeft="170sp"
+                android:paddingLeft="140sp"
                 android:text="Ayuda"
 
 
-                android:textSize="50sp" />
+                android:textSize="40sp" />
 
 
         </LinearLayout>
