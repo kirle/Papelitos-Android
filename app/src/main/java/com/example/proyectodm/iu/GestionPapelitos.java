@@ -50,13 +50,22 @@ public class GestionPapelitos extends AppCompatActivity {
             }
         });
 
+        // * BTN GO
         btngopapelitos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                playSound();
-                Intent myIntent = new Intent(GestionPapelitos.this, RegistrarEquipos.class);
-                myIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                GestionPapelitos.this.startActivity(myIntent);
+                if(gestorDB.getPapelitos().getCount() != 0){
+                    playSound();
+                    Intent myIntent = new Intent(GestionPapelitos.this, RegistrarEquipos.class);
+                    myIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    GestionPapelitos.this.startActivity(myIntent);
+                } else{
+                    AlertDialog.Builder builder = new AlertDialog.Builder(GestionPapelitos.this);
+                    builder.setMessage("¡Debes añadir al menos un papelito!");
+                    builder.create().show();
+                }
+
+
             }
         });
 

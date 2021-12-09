@@ -18,22 +18,49 @@
 
         <LinearLayout
             android:id="@+id/frameHeader"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.10"
             android:orientation="horizontal"
-
+            android:weightSum="1"
 
             >
 
             <ImageButton
                 android:id="@+id/btn_menu"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50px"
                 android:layout_marginTop="30px"
                 android:background="@mipmap/menuicon"
-                android:padding="100px" />
+                android:padding="100px"
+                android:layout_weight="0.2"
+                />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.8"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                >
+
+                <TextView
+                    android:id="@+id/textView9"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Manten pulsado para desplegar menu"
+                    android:fontFamily="@font/delvue"
+                    android:textSize="16dp"
+                    android:gravity="center"
+                    android:textAlignment="center"
+                    android:padding="10px"
+
+                    />
+
+            </LinearLayout>
+
+
 
         </LinearLayout>
 
@@ -180,26 +207,18 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.15"
-            android:gravity="bottom"
-            android:orientation="horizontal"
-            android:weightSum="1"
+            android:orientation="vertical"
+            android:gravity="center"
             >
 
-            <ImageButton
-                android:id="@+id/btn_back"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.5"
-                android:background="@mipmap/btnback"
-                android:scaleX="0.5"
-                android:scaleY="0.5" />
+
 
 
             <ImageButton
                 android:id="@+id/btn_go"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
                 android:background="@mipmap/btnok" />
 
         </LinearLayout>

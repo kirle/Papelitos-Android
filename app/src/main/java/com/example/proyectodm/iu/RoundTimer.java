@@ -11,6 +11,8 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -31,7 +33,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class RoundTimer extends AppCompatActivity {
 
-    private static final long START_TIME_IN_MILLIS = 3000;
+    private static final long START_TIME_IN_MILLIS = 30000;
 
     private TextView txt_timer;
     private Button mButtonStartPause;
@@ -102,17 +104,11 @@ public class RoundTimer extends AppCompatActivity {
             }
         });
 
+        // * BUTTON MENU
         ImageButton btn_back = (ImageButton) findViewById(R.id.btn_menu);
-        btn_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent myIntent2 = new Intent(RoundTimer.this, Instructions.class);
-                ActivityOptions.makeSceneTransitionAnimation(RoundTimer.this).toBundle();
+        this.registerForContextMenu(btn_back);
 
-                RoundTimer.this.startActivity(myIntent2);
 
-            }
-        });
 
         // * BUTTON PALABRA ACERTADA
         ImageButton btn_ok = (ImageButton) findViewById(R.id.btn_go);
@@ -142,12 +138,40 @@ public class RoundTimer extends AppCompatActivity {
         });
 
 
-        updateCountDownText();
+        //updateCountDownText();
 
 
 
 
     }
+
+    // ** Menu contextual
+    public void onCreateContextMenu(ContextMenu contxt, View v, ContextMenu.ContextMenuInfo cmi){
+        if(v.getId() == R.id.btn_menu){
+            this.getMenuInflater().inflate(R.menu.menucontextual, contxt);
+            contxt.setHeaderTitle("MENU");
+        }
+    }
+    @Override
+    public boolean onContextItemSelected(MenuItem menuItem)
+    {
+        boolean toret = false;
+        switch( menuItem.getItemId() ) {
+            case R.id.context_volverMenu:
+                Intent myIntent2 = new Intent(RoundTimer.this, Instructions.class);
+                ActivityOptions.makeSceneTransitionAnimation(RoundTimer.this).toBundle();
+                RoundTimer.this.startActivity(myIntent2);
+                toret = true;
+                break;
+            case R.id.context_resetTimer:
+                restartTimer();
+                toret = true;
+                break;
+        }
+        return toret;
+    }
+
+
     public void pulsaParaEmpezar(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("PULSA PARA EMPEZAR");
@@ -248,6 +272,17 @@ public class RoundTimer extends AppCompatActivity {
         mTimeLeftInMillis = START_TIME_IN_MILLIS;
         updateCountDownText();
         //mButtonReset.setVisibility(View.INVISIBLE);
+    }
+
+    private void restartTimer(){
+        if(Integer.valueOf(txt_timer.getText().toString()) > 0){
+            Toast.makeText(this, "Debes esperar a que acabe el conteo actual", Toast.LENGTH_SHORT).show();
+        } else{
+            mTimeLeftInMillis = START_TIME_IN_MILLIS;
+            updateCountDownText();
+            startTimer();
+        }
+        
     }
 
     private int calculatePoints(){
