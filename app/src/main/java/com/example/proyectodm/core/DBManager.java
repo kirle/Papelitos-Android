@@ -519,6 +519,27 @@ public class DBManager extends SQLiteOpenHelper {
         }
         return text;
     }
+    public String getPapelitoIdByName(String name){
+        String id = "";
+        Cursor c = null;
+        String toRet = "";
+        db = this.getWritableDatabase();
+        try{
+            db.beginTransaction();
+            String query = "SELECT _id FROM papelito WHERE texto = '" + name + "'";
+            c = db.rawQuery(query,null);
+            c.moveToFirst();
+            toRet = c.getString(0);
+        } catch (SQLException e){
+            e.getMessage();
+        }finally {
+            if(c != null){
+                c.close();
+            }
+            db.endTransaction();
+        }
+        return toRet;
+    }
 
     public Cursor getPapelitos(){
         return this.getWritableDatabase().query(tabla_papelito, new String[]{PAPELITO_id},
@@ -602,7 +623,7 @@ public class DBManager extends SQLiteOpenHelper {
         }
         return toret;
     }
-
+    /*
     public boolean asignarPapelito_Equipo(String id_papelito, String id_equipo){
         boolean toret = false;
         Cursor cursor = null;
@@ -620,9 +641,7 @@ public class DBManager extends SQLiteOpenHelper {
                 db.update(tabla_papelito, values, PAPELITO_id + "=? AND " + EQUIPO_id_fk3
                         + "=?", new String[]{id_papelito, id_equipo});
             }
-            else{
-                db.insert(tabla_papelito, null, values);
-            }
+
             db.setTransactionSuccessful();
             toret = true;
         }catch(SQLException exc){
@@ -630,6 +649,29 @@ public class DBManager extends SQLiteOpenHelper {
             if(cursor != null){
                 cursor.close();
             }
+            db.endTransaction();
+        }
+        return toret;
+    }*/
+
+    public boolean asignarPapelito_Equipo(String id_papelito, String id_equipo){
+        boolean toret = false;
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(EQUIPO_id_fk3, id_equipo);
+
+        try{
+            db.beginTransaction();
+
+            db.update(tabla_papelito, values,PAPELITO_id+"=? ", new String[]{id_papelito});
+
+            System.out.println("UPDATED withh papelito: " + id_papelito + "equipo: " + id_equipo);
+            db.setTransactionSuccessful();
+            toret = true;
+        }catch(SQLException exc){
+            toret = false;
+        }finally {
             db.endTransaction();
         }
         return toret;

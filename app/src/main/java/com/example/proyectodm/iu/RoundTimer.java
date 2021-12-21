@@ -116,8 +116,11 @@ public class RoundTimer extends AppCompatActivity {
             @Override
             public void onClick (View v) {
                 if(Integer.valueOf(txt_timer.getText().toString()) > 0){
-                    actualizarPalabra();
+                    String current = txt_current_word.getText().toString();
+                    String id = gestorDB.getPapelitoIdByName(current);
                     gestorDB.modificarPuntuacion(ids_equipos.get(turno), 1);
+                    gestorDB.asignarPapelito_Equipo(id, ids_equipos.get(turno));
+                    actualizarPalabra();
                     lbl_puntuacion.setText(gestorDB.getPuntuacion(Integer.valueOf(ids_equipos.get(turno))));
 
                 } else {
@@ -214,8 +217,19 @@ public class RoundTimer extends AppCompatActivity {
     }
 
     public void sendMessage(){
-        Intent intent = new Intent(RoundTimer.this, MostrarPuntuaciones.class);
-        startActivity(intent);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("FIN DE LA PARTIDA");
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(RoundTimer.this, MostrarPuntuaciones.class);
+                startActivity(intent);
+            }
+        });
+        builder.setCancelable(false);
+        builder.create().show();
+
+
     }
 
     public void actualizarPalabra(){
@@ -223,19 +237,23 @@ public class RoundTimer extends AppCompatActivity {
 
         Cursor cursor_papelitos = this.gestorDB.getPapelitosDisponibles();
 
-        cursor_papelitos.moveToFirst();
-        while(!cursor_papelitos.isAfterLast()) {
-            ids_papelitos.add(cursor_papelitos.getString(0)); //add the item
-            cursor_papelitos.moveToNext();
+        if(cursor_papelitos.getCount() == 0){
+            Toast.makeText(this, "FIN PARTIDA", Toast.LENGTH_SHORT).show();
+            sendMessage();
+        } else {
+            cursor_papelitos.moveToFirst();
+            while (!cursor_papelitos.isAfterLast()) {
+                ids_papelitos.add(cursor_papelitos.getString(0)); //add the item
+                cursor_papelitos.moveToNext();
 
+            }
+            int random = ThreadLocalRandom.current().nextInt(0, ids_papelitos.size());
+            String current_id = ids_papelitos.get(random);
+
+            String papelito_text = this.gestorDB.getPapelito(Integer.valueOf(current_id));
+            txt_current_word = (TextView) findViewById(R.id.current_word);
+            txt_current_word.setText(papelito_text);
         }
-        int random = ThreadLocalRandom.current().nextInt(0, ids_papelitos.size());
-        String current_id = ids_papelitos.get(random);
-
-        String papelito_text = this.gestorDB.getPapelito(Integer.valueOf(current_id));
-        txt_current_word = (TextView) findViewById(R.id.current_word);
-        txt_current_word.setText(papelito_text);
-
 
     }
 

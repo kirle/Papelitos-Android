@@ -75,7 +75,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.2"
-                    android:background="@mipmap/read_icon"
+                    android:background="@mipmap/addicon"
                     android:clickable="true"
 
                     />
@@ -106,13 +106,14 @@
             <EditText
                 android:id="@+id/editTxt_buscar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:ems="10"
                 android:gravity="center"
                 android:textAlignment="center"
                 android:hint="Buscar un papelito"
                 android:inputType="textPersonName"
                 android:maxLines="1"
+                android:background="@drawable/lyt_thick_border"
                 />
         </LinearLayout>
 
