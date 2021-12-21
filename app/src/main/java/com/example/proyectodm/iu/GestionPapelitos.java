@@ -281,7 +281,6 @@ public class GestionPapelitos extends AppCompatActivity {
 
             System.out.println("TEXT ---> " + index);
             TextView txtView = (TextView) v.findViewById(R.id.lbl_paperName);
-
             //Text from database for first view
             String text = gestorDB.getPapelito(Integer.valueOf(index));
             if(text!=null) {
@@ -289,6 +288,10 @@ public class GestionPapelitos extends AppCompatActivity {
             }else{System.out.print("text es null");}
 
             txtView.setText(text);
+
+            // toggle hide/show text
+
+
 
             //On Player image icon (delete) click
             ImageView delete_image_view = (ImageView) v.findViewById(R.id.btn_delete_paper);
@@ -307,6 +310,25 @@ public class GestionPapelitos extends AppCompatActivity {
                 public void onClick(View v) {
                     int i = Integer.valueOf(index);
                     onModify(index);
+                }
+            });
+
+            ImageButton btnshow = (ImageButton) v.findViewById(R.id.eyebtn_show);
+            btnshow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick (View v) {
+                    //Toggle
+                    if (txtView.getVisibility() == View.VISIBLE){
+                        txtView.setVisibility(View.INVISIBLE);
+                        btnshow.setBackgroundResource(R.mipmap.eyeon);
+
+                    }
+                    else {
+                        txtView.setVisibility(View.VISIBLE);
+                        btnshow.setBackgroundResource(R.mipmap.eyeoff);
+
+                    }
+
                 }
             });
 

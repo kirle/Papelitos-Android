@@ -53,6 +53,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/delvue"
                 android:text="Palabra"
+                android:visibility="invisible"
                 android:textSize="24dp" />
         </LinearLayout>
 
@@ -61,25 +62,30 @@
             android:layout_height="match_parent"
             android:orientation="horizontal"
             android:layout_weight="0.33"
+            android:weightSum="1"
 
             >
-            <View
+            <ImageButton
+                android:id="@+id/eyebtn_show"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:background="@mipmap/eyeon"
+                />
 
 
-            <ImageView
+            <ImageButton
                 android:id="@+id/btn_delete_paper"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="0.5"
                 android:layout_gravity="center"
                 android:layout_marginRight="20dp"
                 android:background="@mipmap/paperbinicon"
-                app:srcCompat="@mipmap/paperbinicon"
                 android:clickable="true"
 
                 />
+
         </LinearLayout>
 
 
