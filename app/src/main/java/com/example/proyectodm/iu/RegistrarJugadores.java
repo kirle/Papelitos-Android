@@ -26,6 +26,10 @@ import com.example.proyectodm.core.DBManager;
 
 import java.util.ArrayList;
 
+/*
+ *** Clase RegistrarJugadores ***
+ * CRUD Jugadores
+ */
 public class RegistrarJugadores extends AppCompatActivity {
     private DBManager gestorDB;
     private MyAdapter myAdapter;

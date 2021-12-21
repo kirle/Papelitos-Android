@@ -14,6 +14,11 @@ import android.widget.TextView;
 
 import com.example.proyectodm.R;
 
+/*
+ *** Clase Instrucciones ***
+ *
+ * Explica el funcionamiento de la partida con un scrollable text view
+ */
 public class Instructions extends AppCompatActivity {
 
     @Override

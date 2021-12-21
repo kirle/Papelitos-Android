@@ -29,7 +29,12 @@ import com.example.proyectodm.R;
 import com.example.proyectodm.core.DBManager;
 
 import java.util.ArrayList;
-
+/*
+ *** Clase GestionPapelitos ***
+ *
+ * CRUD Palabras con las que se realiza el juego
+ * Las palabras permanecen ocultas hasta que se clica en el icono en bindview
+ */
 public class GestionPapelitos extends AppCompatActivity {
     private DBManager gestorDB;
     private MyAdapter myAdapter;

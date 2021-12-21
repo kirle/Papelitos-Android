@@ -25,7 +25,11 @@ import com.example.proyectodm.core.DBManager;
 
 import java.util.ArrayList;
 
-
+/*
+ *** Clase RegistrarEquipos ***
+ * CRUD equipo con nombre e id y permite llamar al activity
+ * para registrar jugadores dentro de ese equipo
+ */
 public class RegistrarEquipos extends AppCompatActivity {
 
     private CustomListAdapter myAdapter;

@@ -10,6 +10,9 @@ import android.widget.LinearLayout;
 
 import com.example.proyectodm.R;
 
+/*
+ *** Clase Main ***
+ */
 public class MainActivity extends AppCompatActivity {
 
 

@@ -18,7 +18,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.proyectodm.R;
-
+/*
+ *** Clase Opciones ***
+ * Permite modificar la duración del cronometro o restablecerla
+ */
 public class Options extends AppCompatActivity {
 
     @Override

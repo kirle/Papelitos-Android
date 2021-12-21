@@ -6,6 +6,11 @@ import android.os.Bundle;
 
 import com.example.proyectodm.R;
 
+/*
+ *** Clase RoundManagement ***
+ * ¡¡¡FUTURA IMPLEMENTACION!!!
+ * Gestión de varias rondas con diferentes juegos
+ */
 public class RoundManagement extends AppCompatActivity {
 
     @Override

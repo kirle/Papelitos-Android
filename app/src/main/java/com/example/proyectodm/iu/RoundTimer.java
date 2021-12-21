@@ -32,6 +32,13 @@ import java.util.Collections;
 import java.util.Locale;
 import java.util.concurrent.ThreadLocalRandom;
 
+/*
+ *** Clase RoundTimer ***
+ * Lógica principal del juego, gestión de un cronometro que permite operaciones
+ * de INICIO, PAUSA, STOP, RESTART . Actualiza los equipos según vayan acabandose sus turnos,
+ * modifica sus puntuaciones si aciertan la palabra y acaba el juego si no quedan equipos por jugar
+ * o si se acaban las palabras disponibles.
+ */
 public class RoundTimer extends AppCompatActivity {
 
     public static long START_TIME_IN_MILLIS = 30000;

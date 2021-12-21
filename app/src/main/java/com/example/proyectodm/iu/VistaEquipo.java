@@ -25,6 +25,10 @@ import com.example.proyectodm.core.DBManager;
 
 import java.util.ArrayList;
 
+/*
+ *** Clase VistaEquipo ***
+ * Asocia jugadores a un equipo mediante un list view con un image button clickable
+ */
 public class VistaEquipo extends AppCompatActivity {
     private DBManager gestorDB;
     private CustomListAdapter myAdapter;

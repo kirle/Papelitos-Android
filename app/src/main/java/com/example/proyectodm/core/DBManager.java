@@ -13,6 +13,12 @@ import org.json.JSONObject;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+/*
+*** Clase DBManager ***
+*
+* Gestiona las operaciones sobre las tablas de la base de datos
+* JUGADOR, EQUIPO, PAPELITOS, PUNTUACIONES
+*/
 public class DBManager extends SQLiteOpenHelper {
     public static final String db_name = "papelitos";
     public static final int db_version = 1;

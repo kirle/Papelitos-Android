@@ -10,7 +10,11 @@ import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.example.proyectodm.R;
-
+/*
+ *** Clase Help ***
+ *
+ * Un layout simple explicando el juego
+ */
 public class Help extends AppCompatActivity {
 
     @Override

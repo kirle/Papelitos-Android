@@ -25,6 +25,10 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
+/*
+ *** Clase MostrarPuntuaciones ***
+ * Muestra las puntuaciones de cada equipo obtenidas de la BD ordenadas por cantidad
+ */
 public class MostrarPuntuaciones extends AppCompatActivity {
     private DBManager gestorDB;
     private MyAdapter myAdapter;
