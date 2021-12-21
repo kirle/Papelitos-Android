@@ -34,7 +34,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class RoundTimer extends AppCompatActivity {
 
-    public static final long START_TIME_IN_MILLIS = 30000;
+    public static long START_TIME_IN_MILLIS = 30000;
     public static long PAUSED_TIME_IN_MILLIS = 0;
 
     private TextView txt_timer;

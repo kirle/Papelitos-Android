@@ -42,12 +42,13 @@ public class DBManager extends SQLiteOpenHelper {
     public static String PAPELITO_texto="texto";
     public static String EQUIPO_id_fk3="id_equipo_2";
 
+    private Context context;
     SQLiteDatabase db;
 
     private DBManager(Context context){
         super(context, db_name, null, db_version);
-        context.deleteDatabase("papelitos");
-
+        this.context = context;
+        deleteDB();
     }
 
     public static synchronized DBManager getInstance(Context context){ // Singleton pattern
@@ -55,6 +56,10 @@ public class DBManager extends SQLiteOpenHelper {
             instance = new DBManager(context.getApplicationContext());
         }
         return instance;
+    }
+
+    public void deleteDB(){
+        this.context.deleteDatabase("papelitos");
     }
 
     @Override
