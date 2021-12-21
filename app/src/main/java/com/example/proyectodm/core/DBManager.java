@@ -540,6 +540,31 @@ public class DBManager extends SQLiteOpenHelper {
         return c;
     }
 
+    public Cursor getPapelitoByName(CharSequence filtro){
+        String id = "";
+        Cursor c = null;
+        String query = "";
+        db = this.getWritableDatabase();
+        try{
+            db.beginTransaction();
+            if(filtro.length() == 0){
+                query = "SELECT _id FROM papelito WHERE texto IS NOT NULL";
+            } else {
+                query = "SELECT _id FROM papelito WHERE texto = '" + filtro + "'";
+                ;
+            }
+            c = db.rawQuery(query,null);
+        } catch (SQLException e){
+            e.getMessage();
+        }finally {
+            if(c != null){
+                //c.close();
+            }
+            db.endTransaction();
+        }
+        return c;
+    }
+
 
     // ****
     // -- ASIGNACIONES

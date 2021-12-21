@@ -7,12 +7,15 @@ import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.EditText;
+import android.widget.FilterQueryProvider;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -80,15 +83,62 @@ public class GestionPapelitos extends AppCompatActivity {
         });
 
         //Inicializacion del Adapter
+
         String[] projections = {gestorDB.PAPELITO_id, gestorDB.PAPELITO_texto};
         Cursor c = gestorDB.getWritableDatabase().query( gestorDB.tabla_papelito,
                 projections, null, null, null, null, null );
         ListView listView = (ListView) findViewById(R.id.papersList);
 
         this.myAdapter = new MyAdapter(this, c);
-
-
         listView.setAdapter(myAdapter);
+
+        //Aplicando filtros list view
+
+        listView.setTextFilterEnabled(true);
+
+
+        // Prepare your adapter for filtering
+        myAdapter.setFilterQueryProvider(new FilterQueryProvider() {
+            @Override
+            public Cursor runQuery(CharSequence constraint) {
+
+                return gestorDB.getPapelitoByName(constraint);
+            }
+        });
+
+
+        TextView txt_filter = (TextView) findViewById(R.id.editTxt_buscar);
+        txt_filter.addTextChangedListener(new TextWatcher(){
+
+            @Override
+            public void onTextChanged( CharSequence arg0, int arg1, int arg2, int arg3)
+            {
+                // TODO Auto-generated method stub
+                myAdapter.getFilter().filter(arg0.toString());
+                myAdapter.notifyDataSetChanged();
+
+            }
+
+
+
+            @Override
+            public void beforeTextChanged( CharSequence arg0, int arg1, int arg2, int arg3)
+            {
+                // TODO Auto-generated method stub
+
+            }
+
+
+
+            @Override
+            public void afterTextChanged( Editable arg0)
+            {
+                // TODO Auto-generated method stub
+                GestionPapelitos.this.myAdapter.getFilter().filter(arg0);
+
+            }
+        });
+
 
     }
 
