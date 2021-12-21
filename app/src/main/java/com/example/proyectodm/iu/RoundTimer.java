@@ -7,6 +7,7 @@ import android.app.ActivityOptions;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.media.Image;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -34,6 +35,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class RoundTimer extends AppCompatActivity {
 
     public static final long START_TIME_IN_MILLIS = 30000;
+    public static long PAUSED_TIME_IN_MILLIS = 0;
 
     private TextView txt_timer;
     private Button mButtonStartPause;
@@ -56,6 +58,7 @@ public class RoundTimer extends AppCompatActivity {
     private int numEquipos;
     private int turno;
     private TextView lbl_puntuacion;
+    private boolean paused;
     ArrayList<String> array_nombres;
 
     @Override
@@ -108,7 +111,24 @@ public class RoundTimer extends AppCompatActivity {
         ImageButton btn_back = (ImageButton) findViewById(R.id.btn_menu);
         this.registerForContextMenu(btn_back);
 
+        // * BUTTON PAUSE/RELOAD TIMER
+        paused = false;
+        ImageButton btn_timerManage = (ImageButton) findViewById(R.id.imgbtn_pauseTimer);
+        btn_timerManage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick (View v) {
+                if(paused){
+                    btn_timerManage.setBackground(getDrawable(R.drawable.pauseicon));
+                    restartTimer();
+                    paused = false;
+                } else {
+                    pauseTimer();
+                    paused = true;
+                    btn_timerManage.setBackground(getDrawable(R.drawable.playicon));
 
+                }
+            }
+        });
 
         // * BUTTON PALABRA ACERTADA
         ImageButton btn_ok = (ImageButton) findViewById(R.id.btn_go);
@@ -167,7 +187,8 @@ public class RoundTimer extends AppCompatActivity {
                 toret = true;
                 break;
             case R.id.context_resetTimer:
-                restartTimer();
+                resetTimer();
+                //restartTimer();
                 toret = true;
                 break;
         }
@@ -281,25 +302,29 @@ public class RoundTimer extends AppCompatActivity {
 
     private void pauseTimer(){
         timer.cancel();
+        PAUSED_TIME_IN_MILLIS = mTimeLeftInMillis;
         mTimerRunning = false;
+        updateCountDownText();
         //mButtonStartPause.setText("Start");
         //mButtonReset.setVisibility(View.VISIBLE);
     }
 
     private void resetTimer(){
-        mTimeLeftInMillis = START_TIME_IN_MILLIS;
-        updateCountDownText();
-        //mButtonReset.setVisibility(View.INVISIBLE);
-    }
-
-    private void restartTimer(){
         if(Integer.valueOf(txt_timer.getText().toString()) > 0){
             Toast.makeText(this, "Debes esperar a que acabe el conteo actual", Toast.LENGTH_SHORT).show();
         } else{
             mTimeLeftInMillis = START_TIME_IN_MILLIS;
             updateCountDownText();
-            startTimer();
+            //mButtonReset.setVisibility(View.INVISIBLE);
         }
+
+    }
+
+    private void restartTimer(){
+        mTimeLeftInMillis = PAUSED_TIME_IN_MILLIS;
+        updateCountDownText();
+        startTimer();
+
         
     }
 

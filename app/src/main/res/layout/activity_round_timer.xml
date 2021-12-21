@@ -41,22 +41,33 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.8"
-                android:orientation="vertical"
+                android:orientation="horizontal"
                 android:layout_gravity="center"
+                android:weightSum="1"
                 >
 
                 <TextView
                     android:id="@+id/textView9"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
                     android:text="Manten pulsado para desplegar menu"
                     android:fontFamily="@font/delvue"
                     android:textSize="16dp"
                     android:gravity="center"
                     android:textAlignment="center"
                     android:padding="10px"
+                    android:layout_weight="0.7"
 
                     />
+                <ImageButton
+                    android:id="@+id/imgbtn_pauseTimer"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:background="@drawable/pauseicon"
+                    android:layout_weight="0.3"
+
+                   />
 
             </LinearLayout>
 
