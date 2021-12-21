@@ -22,6 +22,7 @@
             android:layout_weight="0.4"
             android:orientation="vertical"
             android:layout_gravity="center"
+            android:weightSum="1"
 
             >
 
@@ -29,11 +30,25 @@
             <TextView
                 android:id="@+id/textView5"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
                 android:text="INSTRUCTIONS"
                 android:textSize="32dp"
                 android:textAlignment="center"
                 android:gravity="center"
+                android:layout_weight="0.5"
+                android:fontFamily="@font/fatchicks"
+                android:scrollbars = "vertical"
+                />
+
+            <TextView
+                android:id="@+id/txt_trytoscroll"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:text="¡Try to scroll to see more!"
+                android:textSize="20dp"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:layout_weight="0.5"
                 android:fontFamily="@font/fatchicks"
                 android:scrollbars = "vertical"
                 />
@@ -48,18 +63,28 @@
             android:layout_gravity="center"
 
             >
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Comenzará un equipo aleatorio. Cuando selecciones comenzar empezarán a salir papelitos con palabras. Debes imitar para tus compañeros de equipo con gestos (¡sin hacer ningún sonido!) la palabra que haya salido. Si aciertan la palabra pulsa el botón con un tick verde y se te sumará un punto. Cuando se acabe el tiempo, pulsa SIGUIENTE EQUIPO para pasar al siguiente turno. El equipo que más palabras haya adivinado ¡habrá ganado!
-               "
-                android:textSize="24dp"
-                android:gravity="center"
-                android:fontFamily="@font/delvue"
-                android:textAlignment="center"
+            <ScrollView
+                android:id="@+id/SCROLLER_ID"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="vertical"
+                android:fillViewport="true">
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Comenzará un equipo aleatorio. Cuando selecciones comenzar empezarán a salir papelitos con palabras. Debes imitar para tus compañeros de equipo con gestos (¡sin hacer ningún sonido!) la palabra que haya salido. Si aciertan la palabra pulsa el botón con un tick verde y se te sumará un punto. Cuando se acabe el tiempo, pulsa SIGUIENTE EQUIPO para pasar al siguiente turno. El equipo que más palabras haya adivinado ¡habrá ganado!
+                   "
+                    android:scrollbars="vertical"
+                    android:textSize="24dp"
+                    android:gravity="center"
+                    android:fontFamily="@font/delvue"
+                    android:textAlignment="center"
 
-                />
+                    />
+
+            </ScrollView>
+
         </LinearLayout>
 
         <LinearLayout

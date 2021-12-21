@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
 
@@ -21,6 +22,7 @@ public class Help extends AppCompatActivity {
         btn_backplayers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick (View v) {
+                v.startAnimation(AnimationUtils.loadAnimation(Help.this, R.anim.click_animation));
                 Intent intent = new Intent(Help.this, MainActivity.class);
                 startActivity(intent);
             }

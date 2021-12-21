@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.FilterQueryProvider;
@@ -59,6 +60,7 @@ public class GestionPapelitos extends AppCompatActivity {
             public void onClick(View v) {
                 if(gestorDB.getPapelitos().getCount() != 0){
                     playSound();
+                    v.startAnimation(AnimationUtils.loadAnimation(GestionPapelitos.this, R.anim.click_animation));
                     Intent myIntent = new Intent(GestionPapelitos.this, RegistrarEquipos.class);
                     myIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     GestionPapelitos.this.startActivity(myIntent);
@@ -71,11 +73,12 @@ public class GestionPapelitos extends AppCompatActivity {
 
             }
         });
-
+        // * BTN BACK
         btnbackpapelitos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 playSound();
+                v.startAnimation(AnimationUtils.loadAnimation(GestionPapelitos.this, R.anim.click_animation));
                 Intent myIntent2 = new Intent(GestionPapelitos.this, RegistrarJugadores.class);
                 myIntent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 GestionPapelitos.this.startActivity(myIntent2);

@@ -64,7 +64,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.6"
                     android:text="DURACIÓN CRONOMETRO"
-                    android:textSize="32dp"
+                    android:textSize="16dp"
                     android:fontFamily="@font/delvue"
                     />
 

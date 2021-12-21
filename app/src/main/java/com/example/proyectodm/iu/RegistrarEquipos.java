@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -53,7 +54,7 @@ public class RegistrarEquipos extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 playSound();
-
+                v.startAnimation(AnimationUtils.loadAnimation(RegistrarEquipos.this, R.anim.click_animation));
                 Intent myIntent = new Intent(RegistrarEquipos.this, GestionPapelitos.class);
                 myIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 RegistrarEquipos.this.startActivity(myIntent);
@@ -68,6 +69,7 @@ public class RegistrarEquipos extends AppCompatActivity {
             public void onClick(View v) {
                 if(gestorDB.getEquipos().getCount() != 0){
                     playSound();
+                    v.startAnimation(AnimationUtils.loadAnimation(RegistrarEquipos.this, R.anim.click_animation));
                     Intent myIntent2 = new Intent(RegistrarEquipos.this, Instructions.class);
                     myIntent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 

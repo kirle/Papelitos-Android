@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -58,6 +59,8 @@ public class RegistrarJugadores extends AppCompatActivity {
             public void onClick(View v) {
                 if(gestorDB.getJugadores().getCount() != 0){
                     playSound();
+                    v.startAnimation(AnimationUtils.loadAnimation(RegistrarJugadores.this, R.anim.click_animation));
+
                     Intent myIntent = new Intent(RegistrarJugadores.this, GestionPapelitos.class);
                     myIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     RegistrarJugadores.this.startActivity(myIntent);
@@ -76,6 +79,7 @@ public class RegistrarJugadores extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 playSound();
+                v.startAnimation(AnimationUtils.loadAnimation(RegistrarJugadores.this, R.anim.click_animation));
                 Intent myIntent2 = new Intent(RegistrarJugadores.this, MainActivity.class);
                 myIntent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 RegistrarJugadores.this.startActivity(myIntent2);

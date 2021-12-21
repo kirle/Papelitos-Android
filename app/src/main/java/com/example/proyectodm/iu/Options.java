@@ -9,6 +9,7 @@ import android.media.Image;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -35,11 +36,13 @@ public class Options extends AppCompatActivity {
                 Toast.makeText(Options.this, "Opciones restablecidas", Toast.LENGTH_SHORT).show();
             }
         });
-        
+
+        // * BTN BACK
         ImageButton btn_back = (ImageButton) findViewById(R.id.btn_backpapelitos);
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                v.startAnimation(AnimationUtils.loadAnimation(Options.this, R.anim.click_animation));
                 Intent intent = new Intent(Options.this, MainActivity.class);
                 Options.this.startActivity(intent);
             }
